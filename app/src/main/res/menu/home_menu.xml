@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/ktx"
+        android:title="Ký túc xá"/>
+    <item android:id="@+id/student"
+        android:title="Sinh viên"/>
+    <item android:id="@+id/activity"
+        android:title="Hoạt động nội trú"/>
+</menu>
