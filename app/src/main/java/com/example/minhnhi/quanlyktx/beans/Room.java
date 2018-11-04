@@ -1,51 +1,92 @@
 package com.example.minhnhi.quanlyktx.beans;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Room {
-    private int roomNumber;
-    private int currentUsers;
-    private int maxUsers;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("areaId")
+    private int areaId;
+    @SerializedName("floorId")
+    private int floorId;
+    @SerializedName("numberBed")
+    private int numberBed;
+    @SerializedName("gender")
+    private int gender;
+    @SerializedName("costId")
+    private int costId;
+    @SerializedName("status")
     private int status;
+    @SerializedName("studentMax")
+    private int studentMax;
+    @SerializedName("studentPresent")
+    private int studentPresent;
+    @SerializedName("studentRegister")
+    private int studentRegister;
+    @SerializedName("functionId")
+    private int functionId;
 
-    public Room(int roomNumber, int currentUsers, int maxUsers, int status) {
-        this.roomNumber = roomNumber;
-        this.currentUsers = currentUsers;
-        this.maxUsers = maxUsers;
-        this.status = status;
+    private Floor floor;
+
+    public int getId() {
+        return id;
     }
 
-    public int getRoomNumber() {
-        return roomNumber;
+    public String getName() {
+        return name;
     }
 
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+    public int getAreaId() {
+        return areaId;
     }
 
-    public int getCurrentUsers() {
-        return currentUsers;
+    public int getFloorId() {
+        return floorId;
     }
 
-    public void setCurrentUsers(int currentUsers) {
-        this.currentUsers = currentUsers;
+    public int getNumberBed() {
+        return numberBed;
     }
 
-    public int getMaxUsers() {
-        return maxUsers;
+    public int getGender() {
+        return gender;
     }
 
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
+    public int getCostId() {
+        return costId;
     }
 
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public int getStudentMax() {
+        return studentMax;
     }
 
-    public String toNumberUsed(){
-        return currentUsers + "/" + maxUsers;
+    public int getStudentPresent() {
+        return studentPresent;
+    }
+
+    public int getStudentRegister() {
+        return studentRegister;
+    }
+
+    public int getFunctionId() {
+        return functionId;
+    }
+
+    public String getUsedNumber(){
+        return String.valueOf(studentPresent) + "/" + String.valueOf(studentMax);
+    }
+
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Floor floor) {
+        this.floor = floor;
     }
 }

@@ -1,5 +1,5 @@
 package com.example.minhnhi.quanlyktx.utils;
 
-public interface OnSlideAnimationStartListener {
-    void onAnimationStart();
+public interface OnSlideAnimationStartListener<T> {
+    void onAnimationStart(T t);
 }

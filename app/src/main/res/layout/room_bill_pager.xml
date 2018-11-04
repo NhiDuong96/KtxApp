@@ -13,8 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Tháng: "
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:text="Tháng: "/>
 
         <Spinner
             android:id="@+id/month"
@@ -25,21 +24,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Năm: "
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:text="Năm: " />
 
         <Spinner
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </Spinner>
+    </LinearLayout>
     <Button
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Xem"
         style="@android:style/Widget.Holo.Light.ImageButton"/>
-    </LinearLayout>
+
     <TableLayout
         android:id="@+id/tabla_cuerpo"
         android:layout_width="match_parent"
@@ -56,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:layout_weight="1"
@@ -67,7 +66,8 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Tiền điện"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:layout_weight="1"
@@ -78,7 +78,8 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Tiền nước"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         </TableRow>
 
@@ -96,7 +97,7 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Số cũ"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/oldNumElectric"
@@ -105,8 +106,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/oldNumWater"
@@ -115,8 +117,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
         </TableRow>
 
         <TableRow
@@ -133,7 +136,7 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Số mới"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/newNumElectric"
@@ -142,8 +145,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/newNumWater"
@@ -152,8 +156,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         </TableRow>
 
@@ -171,7 +176,7 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Số tiêu thụ"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/revenueElectric"
@@ -180,8 +185,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/revenueWater"
@@ -190,8 +196,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         </TableRow>
         <TableRow
@@ -208,7 +215,7 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Thành tiền"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/costElectric"
@@ -217,8 +224,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:id="@+id/costWater"
@@ -227,8 +235,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         </TableRow>
         <TableRow
@@ -237,7 +246,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_weight="5"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/cell_shape"
@@ -245,25 +254,27 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:text="Tổng tiền"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
             <TextView
                 android:id="@+id/costTotal"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/cell_shape"
                 android:padding="5dp"
-                android:text="TextView"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="0"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <CheckBox
                 android:id="@+id/payCb"
-                android:layout_weight="9"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="33dp"
+                android:background="@drawable/cell_shape"
                 android:enabled="false"
                 android:checked="true"
-                android:text="Đã nộp"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:text="Đã nộp"/>
 
         </TableRow>
 

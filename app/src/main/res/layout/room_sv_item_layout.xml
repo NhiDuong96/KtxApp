@@ -10,19 +10,21 @@
         android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:gravity="start"
         android:text="Trương Đức Hiếu"/>
     <TextView
         android:id="@+id/lop"
         android:layout_weight="1"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="14T1"/>
     <TextView
         android:id="@+id/status"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_weight="1"
+        android:gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đang Thuê"/>

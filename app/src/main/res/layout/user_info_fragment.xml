@@ -31,13 +31,13 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAllCaps="true"
-        android:textColor="@color/blue_800"
+        android:textColor="@color/blue_500"
         android:text="@string/user_title"/>
     <View
         android:layout_marginTop="@dimen/fab_margin_8"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@color/blue_800"/>
+        android:background="@color/blue_500"/>
     <com.example.minhnhi.quanlyktx.utils.InputView
         android:id="@+id/mssv"
         app:label="MSSV:"
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <com.example.minhnhi.quanlyktx.utils.InputView
-        android:id="@+id/gentle"
+        android:id="@+id/gender"
         app:label="Giới tính:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -72,7 +72,21 @@
         app:label="CMND:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/className"
+        app:label="Lớp SH:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/phone"
+        app:label="Phone:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/address"
+        app:label="Địa chỉ:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_marginTop="@dimen/fab_margin_8"
         android:layout_width="match_parent"
@@ -83,7 +97,7 @@
             android:text="@string/save"
             android:textColor="@android:color/white"
             android:textAllCaps="false"
-            android:background="@color/blue_500"
+            android:backgroundTint="@color/blue_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/fab_margin"
@@ -94,7 +108,7 @@
             android:text="@string/reset"
             android:textColor="@android:color/white"
             android:textAllCaps="false"
-            android:background="@color/blue_500"
+            android:backgroundTint="@color/blue_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -108,13 +122,13 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAllCaps="true"
-        android:textColor="@color/blue_800"
+        android:textColor="@color/blue_500"
         android:text="@string/password_update"/>
     <View
         android:layout_marginTop="@dimen/fab_margin_8"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@color/blue_800"/>
+        android:background="@color/blue_500"/>
     <com.example.minhnhi.quanlyktx.utils.InputView
         app:label="Mật khẩu cũ:"
         android:layout_width="match_parent"
@@ -131,7 +145,7 @@
         android:text="@string/password_change"
         android:textColor="@android:color/white"
         android:textAllCaps="false"
-        android:background="@color/blue_500"
+        android:backgroundTint="@color/blue_500"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

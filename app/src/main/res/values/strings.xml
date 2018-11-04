@@ -11,10 +11,21 @@
     <string name="contact_info"><b>LIÊN HỆ</b>\nBan Quản lý KTX - Đại học Bách khoa.\nĐịa chỉ: 60
     Ngô Sĩ Liên, phường Hòa Khánh Bắc, quẩn Liên Chiểu, TP Đà Nẵng.\nTel: 0511.3736.936\nEmail: ktxbk.dn@gmail.com</string>
 
-    <!-- uri api -->
-    <string name="login_uri">http://demo2159415.mockable.io/account</string>
-    <string name="user_info_uri">http://demo2159415.mockable.io/account</string>
+    <!-- uri host-->
+    <string name="host">http://demo2159415.mockable.io/</string>
 
+    <!-- uri api-->
+    <string name="login_uri">api/user</string>
+    <string name="user_notification_uri">api/notification/user/</string>
+    <string name="user_info_uri">api/user/get_user_detail/</string>
+    <string name="read_notification_uri">api/notification/user/read/</string>
+    <string name="delete_notification_uri">api/notification/user/delete/</string>
+
+    <string name="get_areas_uri">api/areas</string>
+    <string name="get_floors_uri">api/floor/</string>
+    <string name="get_rooms_uri">api/room/floor/</string>
+    <string name="get_student_in_room_uri">api/user/room/</string>
+    <string name="get_bill_in_room_uri">api/subsistence/</string>
     <!-- home page -->
     <string name="home_title">Thông báo</string>
 
@@ -24,6 +35,7 @@
     <string name="password_update">Đổi mật khẩu</string>
     
     <!-- ktx page -->
+    <string name="ktx_title">Kí túc xá</string>
     <string name="room_details_title_1">Thông tin phòng</string>
     <string name="room_details_title_2">Danh sách sinh viên</string>
     <string name="room_details_title_3">Điện nước</string>
@@ -37,4 +49,54 @@
     <string name="btn_notification_1">Đánh dấu đã đọc</string>
     <string name="btn_notification_2">Đánh dấu chưa đọc</string>
     <string name="btn_notification_3">Xóa đánh dấu</string>
+    <string name="html"><![CDATA[
+    <p>Để thuận tiện cho sinh viên ổn định chỗ&nbsp;ở trước khi bước vào năm học mới, Tổ quản lý Ký túc xá Bách khoa thông báo đến sinh viên toàn trường kế hoạch đăng ký nội trú đợt 1 năm học 2018 - 2019 như sau:</p>
+
+    <p><strong>I. Đối với sinh viên các khóa cũ được đăng ký nội trú tại:</strong></p>
+
+    <p>- Nhà 4: tất cả các phòng;</p>
+
+    <p>- Nhà 5: - phòng 103, 109, 111, 112;</p>
+
+    <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -&nbsp;phòng 201, 202, 203;</p>
+
+    <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - phòng 301, 302, 303;</p>
+
+    <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - phòng 401, 402, 403;</p>
+
+    <p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; - phòng 501, 502, 503.</p>
+
+    <p><strong>II. Kế hoạch đăng ký:</strong></p>
+
+    <p>1. Thời gian đăng ký: Từ ngày 05/07/2018 đến ngày 25/07/2018;</p>
+
+    <p>2. Thời gian ở kỳ 1: 5,5 tháng (từ ngày 06/08/2018 đến ngày 25/01/2019);</p>
+
+    <p>3. Mức nội trí phí:&nbsp;</p>
+
+    <p>- Nhà 4: 120.000 đồng/tháng/SV</p>
+
+    <p>- Nhà 5: 140.000 đồng/tháng/SV</p>
+
+    <p>4. Sinh viên đăng ký:</p>
+
+    <p>- Tại Website <u>http://ktx.dut.udn.vn:8080/</u></p>
+
+    <p>- Hoặc liên hệ trực tiếp tại văn phòng tổ quản lý Ký túc xá Bách khoa.</p>
+
+    <p>5. Thủ tục đăng ký:&nbsp;</p>
+
+    <p>- Đơn xin ở ký túc xá ( mẫu có tại website đăng ký);</p>
+
+    <p>- 4 ảnh 3x4;</p>
+
+    <p>- Photo chứng minh nhân dân (không cần công chứng);</p>
+
+    <p>- Photo thẻ sinh viên.</p>
+
+    <p>Chú ý; Sau khi đăng ký được duyệt sinh viên in đơn, đến văn phòng tổ quản lý Ký túc xá Bách khoa làm thủ tục nộp tiền và nhận phòng.</p>
+
+    <p>Trân trọng!</p>
+
+    ]]></string>
 </resources>

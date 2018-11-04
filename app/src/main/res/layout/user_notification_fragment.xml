@@ -13,12 +13,44 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAllCaps="true"
-        android:textColor="@color/blue_800"
+        android:textColor="@color/blue_500"
         android:text="@string/user_notification_title"/>
     <View
         android:layout_marginTop="@dimen/fab_margin_8"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@color/blue_800"/>
+        android:background="@color/blue_500"/>
+    <LinearLayout
+        android:layout_marginTop="@dimen/fab_margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/read"
+            android:text="Đánh dấu đã đọc"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/btn_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/delete"
+            android:textSize="12sp"
+            android:text="Xóa thông báo"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/btn_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
+    <com.example.minhnhi.quanlyktx.view.user.ExpandingListView
+        android:id="@+id/list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.example.minhnhi.quanlyktx.view.user.ExpandingListView>
 </LinearLayout>

@@ -1,18 +1,19 @@
 package com.example.minhnhi.quanlyktx.utils;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.UserAccount;
-
-import org.json.JSONException;
+import com.example.minhnhi.quanlyktx.cmd.AccountRequest;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
 public class AccountManager implements Serializable{
@@ -34,19 +36,11 @@ public class AccountManager implements Serializable{
 
     private Context context;
 
-    private boolean isLogin = false;
+    private boolean isLogged = false;
+
+    private UserAccount account;
 
     private static AccountManager accountManager;
-
-    private Handler handler = new Handler( new Handler.Callback(){
-
-        @Override
-        public boolean handleMessage(Message message) {
-            if(message.what == 0)
-                Toast.makeText(context, "Thông tin đăng nhập không đúng!", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    });
 
     private AccountManager(){ }
 
@@ -57,52 +51,66 @@ public class AccountManager implements Serializable{
         return accountManager;
     }
 
+    public void setListener(OnLoginSuccessListener listener) {
+        this.listener = listener;
+    }
+
     @SuppressLint("StaticFieldLeak")
-    public void logIn(final Context context, final UserAccount account, boolean remember, OnLoginSuccessListener listener){
-        this.context = context;
-        try {
-            isLogin = new AsyncTask<Void, Void, Boolean>() {
-                @Override
-                protected Boolean doInBackground(Void... voids) {
-                    try {
+    public void logIn(final Context context, String userName, String password, String uri, boolean remember){
+        AccountRequest req = new AccountRequest(userName, password);
+        AsyncTask<Void, Void, UserAccount> task = new AsyncTask<Void, Void, UserAccount>() {
 
-                        JsonAPI.post(account.toJson().toString(), account.getApiUrl());
-
-                    } catch (IOException | JSONException e) {
-                        Message msg = new Message();
-                        msg.what = 0;
-                        handler.sendMessage(msg);
-                        return false;
-                    }
-                    return true;
+            @Override
+            protected UserAccount doInBackground(Void... voids) {
+                UserAccount user = null;
+                try {
+                    String json = JsonAPI.postForResponse(new Gson().toJson(req), uri, HttpURLConnection.HTTP_OK);
+                    user = new Gson().fromJson(json, UserAccount.class);
+                    isLogged = true;
+                } catch (IOException e) {
+                    isLogged = false;
                 }
-            }.execute().get();
-            if(isLogin && listener != null){
-                listener.onLogged(account);
+                return user;
+            }
+        };
+        task.execute();
+        try {
+            this.account = task.get();
+            if(isLogged && listener != null){
+                listener.onLogged(this.account);
+            }
+            if(remember){
+                saveAccountToInternalStorage(context, account);
             }
         } catch (InterruptedException | ExecutionException e) {
-            Toast.makeText(context, "Xảy ra lỗi, đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-            return;
         }
-        //save data to file
-        if(remember) saveAccountToInternalStorage(context,account);
     }
 
     public void logOut(Context context){
         deleteAccountFromInternalStorage(context);
-        isLogin = false;
+        isLogged = false;
     }
 
-    public boolean isLogged(){
-        return isLogin;
+    public boolean isLogged(Context context){
+        if(!isLogged){
+            account = readAccountFromInternalStorage(context);
+            if(account != null) {
+                return isLogged = true;
+            }
+            else return false;
+        }
+        return true;
     }
 
     public UserAccount getLoggedAccount(Context context){
-        return readAccountFromInternalStorage(context);
+        if(account == null){
+            account = readAccountFromInternalStorage(context);
+        }
+        return account;
     }
 
-    private boolean saveAccountToInternalStorage(Context context, UserAccount account){
+    private void saveAccountToInternalStorage(Context context, UserAccount account){
         try {
             FileOutputStream fos = context.openFileOutput("account.dat", Context.MODE_PRIVATE);
             ObjectOutputStream o = new ObjectOutputStream(fos);
@@ -112,26 +120,22 @@ public class AccountManager implements Serializable{
             fos.close();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
-    private static UserAccount readAccountFromInternalStorage(Context context){
-
+    private UserAccount readAccountFromInternalStorage(Context context){
         try {
             File file = context.getFileStreamPath("account.dat");
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream o = new ObjectInputStream(fis);
-
             return (UserAccount) o.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            Log.e(TAG, "No loged account");
+            Log.e(TAG, "No logged account");
         }
         return null;
     }
 
     private void deleteAccountFromInternalStorage(Context context){
-        context.deleteFile("account.bat");
+        context.deleteFile("account.dat");
     }
 }

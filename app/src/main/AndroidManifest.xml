@@ -14,24 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".HomeActivity"
+        <activity android:name=".view.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".UserActivity"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".HomeActivity"
-            tools:targetApi="jelly_bean">
-
-        </activity>
-        <activity android:name=".KtxActivity"
-            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+        </activity>
+        <activity android:name=".view.login.LoginActivity"/>
+        <activity android:name=".view.user.UserActivity"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".view.home.HomeActivity"
+            tools:targetApi="jelly_bean">
+        </activity>
+        <activity android:name=".view.ktx.KtxActivity"
+            android:parentActivityName=".view.home.HomeActivity"
+            android:configChanges="orientation|screenSize"
+            tools:targetApi="jelly_bean">
         </activity>
     </application>
 

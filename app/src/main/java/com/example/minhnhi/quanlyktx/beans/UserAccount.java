@@ -1,5 +1,7 @@
 package com.example.minhnhi.quanlyktx.beans;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,12 +9,24 @@ import java.io.Serializable;
 
 public class UserAccount implements Serializable {
     public static final String TAG = "UserAccount";
-    private String name, password;
-    private String apiUrl;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("userName")
+    private String name;
+    @SerializedName("password")
+    private String password;
 
     public UserAccount(String name, String password) {
         this.name = name;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,20 +51,5 @@ public class UserAccount implements Serializable {
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';
-    }
-
-    public JSONObject toJson() throws JSONException {
-        JSONObject object = new JSONObject();
-        object.put("name", name)
-                .put("password", password);
-        return object;
-    }
-
-    public String getApiUrl() {
-        return apiUrl;
-    }
-
-    public void setApiUrl(String apiUrl) {
-        this.apiUrl = apiUrl;
     }
 }

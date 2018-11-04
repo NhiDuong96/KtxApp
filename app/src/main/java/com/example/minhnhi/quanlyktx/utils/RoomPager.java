@@ -1,5 +1,7 @@
 package com.example.minhnhi.quanlyktx.utils;
 
+import com.example.minhnhi.quanlyktx.beans.Room;
+
 public interface RoomPager {
-    void loadData(int roomID);
+    void setRoom(Room room);
 }

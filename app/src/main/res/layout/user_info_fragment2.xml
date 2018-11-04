@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fab_margin_8"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <Button
+        android:id="@+id/notification"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textColor="@color/pink_300"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:paddingStart="@dimen/fab_margin_8"
+        android:paddingEnd="@dimen/fab_margin_8"
+        android:text="@string/description"
+        android:layout_marginTop="@dimen/fab_margin_8"
+        android:background="@color/pink_100"
+        android:gravity="start|center_vertical"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@color/blue_800"
+        android:text="@string/user_title"/>
+    <View
+        android:layout_marginTop="@dimen/fab_margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/blue_800"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/mssv"
+        app:label="MSSV:"
+        app:editable="false"
+        app:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/name"
+        app:label="Họ tên:"
+        app:editable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/gender"
+        app:label="Giới tính:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/year"
+        app:label="Khóa:"
+        app:editable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/birthday"
+        app:label="Ngày sinh:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:id="@+id/cmnd"
+        app:label="CMND:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/fab_margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/save"
+            android:text="@string/save"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:background="@color/blue_500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/fab_margin"/>
+        <Button
+            android:id="@+id/reset"
+            android:text="@string/reset"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:background="@color/blue_500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@color/blue_800"
+        android:text="@string/password_update"/>
+    <View
+        android:layout_marginTop="@dimen/fab_margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/blue_800"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        app:label="Mật khẩu cũ:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        app:label="Mật khẩu mới:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.minhnhi.quanlyktx.utils.InputView
+        app:label="Xác nhận mật khẩu mới:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:text="@string/password_change"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:background="@color/blue_500"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
