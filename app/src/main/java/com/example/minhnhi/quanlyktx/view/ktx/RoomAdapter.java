@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
+import com.example.minhnhi.quanlyktx.view.ktx.helper.RoomFunctionIconFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,20 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         Room room = rooms.get(position);
         holder.roomNumber.setText(room.getName());
         holder.usedNumber.setText(room.getUsedNumber());
-        for(int i = 0; i < room.getStudentPresent(); i++){
-            holder.icons.get(i).setImageResource(R.mipmap.men_icon_48);
-        }
-        for(int i = room.getStudentPresent(); i < room.getStudentMax(); i++){
-            holder.icons.get(i).setImageResource(R.mipmap.men_icon_hide_48);
+        int functionIcon = RoomFunctionIconFactory.getIcon(room.getFunctionId());
+        if(functionIcon == -1) {
+            for (int i = 0; i < room.getStudentPresent(); i++) {
+                holder.icons.get(i).setImageResource((room.getGender() == 1) ? R.mipmap.men_icon_48 : R.mipmap.woman_icon_48);
+            }
+            for (int i = room.getStudentPresent(); i < room.getStudentMax(); i++) {
+                holder.icons.get(i).setImageResource((room.getGender() == 1) ? R.mipmap.men_icon_hide_48 : R.mipmap.woman_icon_hide_48);
+            }
+        }else{
+            for (int i = 0; i < 8; i++) {
+                holder.icons.get(i).setVisibility(View.GONE);
+            }
+            holder.functionImg.setImageResource(functionIcon);
+            holder.functionImg.setVisibility(View.VISIBLE);
         }
     }
 
@@ -60,7 +70,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
     private void onItemHolderClick(RoomHolder itemHolder) {
         if (mOnItemClickListener != null) {
             Room room = rooms.get(itemHolder.getAdapterPosition());
-            mOnItemClickListener.onRoomClick(room);
+            if(room.getFunctionId() == -1)
+                mOnItemClickListener.onRoomClick(room);
         }
     }
 
@@ -69,6 +80,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         private TextView roomNumber, usedNumber;
         private RoomAdapter adapter;
         private List<ImageView> icons = new ArrayList<>();
+        private ImageView functionImg;
 
         RoomHolder(View itemView, RoomAdapter adapter) {
             super(itemView);
@@ -83,6 +95,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
             icons.add(itemView.findViewById(R.id.ic_6));
             icons.add(itemView.findViewById(R.id.ic_7));
             icons.add(itemView.findViewById(R.id.ic_8));
+
+            functionImg = itemView.findViewById(R.id.function);
             itemView.setOnClickListener(this);
         }
 

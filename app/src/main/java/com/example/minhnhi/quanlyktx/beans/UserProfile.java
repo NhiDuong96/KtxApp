@@ -11,14 +11,14 @@ public class UserProfile {
     @SerializedName("fullName")
     private String name;
     @SerializedName("gender")
-    private String gender;
+    private int gender;
     @SerializedName("year")
     private String year;
     @SerializedName("birthday")
     private String birthday;
     @SerializedName("cmnd")
     private String cmnd;
-    @SerializedName("className")
+    @SerializedName("nameClass")
     private String className;
     @SerializedName("phone")
     private String phone;
@@ -41,11 +41,11 @@ public class UserProfile {
         this.name = name;
     }
 
-    public String getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 

@@ -48,6 +48,14 @@
             android:layout_toRightOf="@+id/roomNumber"
             android:layout_toEndOf="@+id/roomNumber" />
 
+        <ImageView
+            android:id="@+id/function"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/roomNumber"/>
         <LinearLayout
             android:id="@+id/person1"
             android:layout_width="wrap_content"

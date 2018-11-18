@@ -51,37 +51,71 @@
         app:editable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.example.minhnhi.quanlyktx.utils.InputView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Giới tính:" />
+    <Spinner
         android:id="@+id/gender"
-        app:label="Giới tính:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        style="@style/Widget.AppCompat.Spinner.Underlined"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Khóa:" />
+    <Spinner
         android:id="@+id/year"
-        app:label="Khóa:"
-        app:editable="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        style="@style/Widget.AppCompat.Spinner.Underlined"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Ngày sinh:" />
+    <EditText
         android:id="@+id/birthday"
-        app:label="Ngày sinh:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.example.minhnhi.quanlyktx.utils.InputView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginLeft="@dimen/fab_margin" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="CMND:" />
+    <EditText
         android:id="@+id/cmnd"
-        app:label="CMND:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:inputType="number"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginLeft="@dimen/fab_margin" />
     <com.example.minhnhi.quanlyktx.utils.InputView
         android:id="@+id/className"
         app:label="Lớp SH:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.example.minhnhi.quanlyktx.utils.InputView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Số điện thoại:" />
+    <EditText
         android:id="@+id/phone"
-        app:label="Phone:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:inputType="phone"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginLeft="@dimen/fab_margin" />
     <com.example.minhnhi.quanlyktx.utils.InputView
         android:id="@+id/address"
         app:label="Địa chỉ:"

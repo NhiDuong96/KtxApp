@@ -31,7 +31,7 @@ public class JsonAPI {
 		os.flush();
 		os.close();
 
-		int code = conn.getResponseCode();;
+		int code = conn.getResponseCode();
 		conn.disconnect();
 		return code;
 	}
@@ -65,7 +65,7 @@ public class JsonAPI {
 			}while ((line = in.readLine()) != null) ;
 
 			in.close();
-			Log.e("textmessage",sb.toString());
+			Log.e("Message: ",sb.toString());
 			return sb.toString();
 		}
 		else{

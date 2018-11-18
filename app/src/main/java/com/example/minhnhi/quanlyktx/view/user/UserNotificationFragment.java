@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +49,7 @@ public class UserNotificationFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View view) {
         Resources res = getResources();
@@ -61,6 +61,8 @@ public class UserNotificationFragment extends Fragment implements View.OnClickLi
                 updateNotification(res.getString(R.string.host) + res.getString(R.string.delete_notification_uri));
                 break;
         }
+        notifications.removeIf(ExpandableNotificationItem::isSelected);
+        adapter.notifyDataSetChanged();
     }
 
     @SuppressLint("StaticFieldLeak")
