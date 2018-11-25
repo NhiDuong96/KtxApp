@@ -7,5 +7,5 @@ import java.util.List;
 
 public class BillsResponse extends BaseResponse {
     @SerializedName("data")
-    public List<Bill> entries;
+    public Bill entry;
 }

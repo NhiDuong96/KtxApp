@@ -17,12 +17,14 @@ public abstract class HomePage {
     public List<Notification> getData(){
         return data;
     }
-    public NotificationAdapter getAdapter() {
+    NotificationAdapter getAdapter() {
         return new NotificationAdapter(getData());
     }
-    public Notification getItem(int position){
+    Notification getItem(int position){
         return data.get(position);
     }
 
-    protected abstract String getAPI();
+    protected abstract int getAPI();
+
+    protected abstract int getTitleId();
 }

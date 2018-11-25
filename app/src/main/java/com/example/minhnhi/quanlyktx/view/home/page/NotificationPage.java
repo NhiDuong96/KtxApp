@@ -1,6 +1,9 @@
 package com.example.minhnhi.quanlyktx.view.home.page;
 
+import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Notification;
+import com.example.minhnhi.quanlyktx.cmd.NotificationsResponse;
+import com.example.minhnhi.quanlyktx.utils.GsonDateFormatter;
 import com.example.minhnhi.quanlyktx.view.home.HomePage;
 import com.example.minhnhi.quanlyktx.view.home.NotificationAdapter;
 
@@ -10,8 +13,13 @@ import java.util.List;
 
 public class NotificationPage extends HomePage {
     @Override
-    public String getAPI() {
-        return "";
+    public int getAPI() {
+        return R.string.get_home_notifications_uri;
+    }
+
+    @Override
+    protected int getTitleId() {
+        return R.string.home_title;
     }
 
     @Override
@@ -24,7 +32,7 @@ public class NotificationPage extends HomePage {
             return notifications;
         }
         //parse json here
-
-        return super.parseJson(json);
+        NotificationsResponse res = GsonDateFormatter.getGson().fromJson(json, NotificationsResponse.class);
+        return res.entries;
     }
 }

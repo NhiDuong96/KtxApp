@@ -28,7 +28,7 @@ public class NotificationDetailsFragment extends Fragment {
         tv = view.findViewById(R.id.time);
         tv.setText(TimeParser.parse(notification.getPostDate(), TimeParser.TIME_PATTERN_1));
         tv = view.findViewById(R.id.content);
-        tv.setText(Html.fromHtml(getString(R.string.html)));
+        tv.setText(Html.fromHtml(notification.getContent()));
         view.findViewById(R.id.back).setOnClickListener(view1 -> {
             getFragmentManager().popBackStack();
         });

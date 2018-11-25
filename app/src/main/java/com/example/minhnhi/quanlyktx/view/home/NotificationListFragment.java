@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,7 @@ import com.example.minhnhi.quanlyktx.R;
 
 public class NotificationListFragment extends Fragment {
     private RecyclerView recyclerView;
-    private HomePageMgr homePageMgr = new HomePageMgr();
+    private HomePageMgr homePageMgr;
     private NotificationAdapter adapter;
     private HomePage page;
 
@@ -29,23 +31,28 @@ public class NotificationListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        homePageMgr = new HomePageMgr(getContext());
         homePageMgr.setPageFactory(new HomePageFactory());
         page = homePageMgr.getPage(HomePageFactory.NOTIFICATION);
         adapter = page.getAdapter();
         adapter.setOnItemClickListener(listener);
         recyclerView.setAdapter(adapter);
+
         return view;
     }
 
     public void onNextPage(){
         page = homePageMgr.getPage(homePageMgr.getPageFactory().nextPage());
-        adapter = page.getAdapter();
-        adapter.setOnItemClickListener(listener);
-        recyclerView.setAdapter(adapter);
+        showPage(page);
     }
 
     public void onPreviousPage(){
         page = homePageMgr.getPage(homePageMgr.getPageFactory().previousPage());
+        showPage(page);
+    }
+
+    private void showPage(HomePage page){
+        ((HomeActivity)getActivity()).setToolbarTitle(getResources().getString(page.getTitleId()));
         adapter = page.getAdapter();
         adapter.setOnItemClickListener(listener);
         recyclerView.setAdapter(adapter);

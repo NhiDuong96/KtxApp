@@ -2,6 +2,7 @@ package com.example.minhnhi.quanlyktx.view.ktx;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
 
-    private List<Room> rooms;
+    protected List<Room> rooms;
     public interface OnRoomClickListener{
         void onRoomClick(Room room);
     }
@@ -43,10 +44,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         holder.usedNumber.setText(room.getUsedNumber());
         int functionIcon = RoomFunctionIconFactory.getIcon(room.getFunctionId());
         if(functionIcon == -1) {
-            for (int i = 0; i < room.getStudentPresent(); i++) {
+            for (int i = 0; i < getCurrentStudent(room); i++) {
                 holder.icons.get(i).setImageResource((room.getGender() == 1) ? R.mipmap.men_icon_48 : R.mipmap.woman_icon_48);
             }
-            for (int i = room.getStudentPresent(); i < room.getStudentMax(); i++) {
+            for (int i = getCurrentStudent(room); i < room.getStudentMax(); i++) {
                 holder.icons.get(i).setImageResource((room.getGender() == 1) ? R.mipmap.men_icon_hide_48 : R.mipmap.woman_icon_hide_48);
             }
         }else{
@@ -56,6 +57,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
             holder.functionImg.setImageResource(functionIcon);
             holder.functionImg.setVisibility(View.VISIBLE);
         }
+    }
+
+    public int getCurrentStudent(Room room){
+        return room.getStudentPresent();
     }
 
     @Override
@@ -70,17 +75,22 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
     private void onItemHolderClick(RoomHolder itemHolder) {
         if (mOnItemClickListener != null) {
             Room room = rooms.get(itemHolder.getAdapterPosition());
-            if(room.getFunctionId() == -1)
+            Log.e("debug" , "click");
+            mOnItemClickListener.onRoomClick(room);
+            if(room.getFunctionId() == -1) {
+                Log.e("debug" , "click");
                 mOnItemClickListener.onRoomClick(room);
+            }
         }
     }
 
 
     class RoomHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView roomNumber, usedNumber;
-        private RoomAdapter adapter;
-        private List<ImageView> icons = new ArrayList<>();
-        private ImageView functionImg;
+        TextView roomNumber;
+        TextView usedNumber;
+        RoomAdapter adapter;
+        List<ImageView> icons = new ArrayList<>();
+        ImageView functionImg;
 
         RoomHolder(View itemView, RoomAdapter adapter) {
             super(itemView);

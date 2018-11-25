@@ -43,13 +43,17 @@ public class FloorAdapter extends RecyclerView.Adapter<FloorAdapter.FloorHolder>
     @Override
     public void onBindViewHolder(@NonNull FloorHolder floorHolder, int i) {
         List<Room> rooms = floors.get(i).getRooms();
-        RoomAdapter adapter = new RoomAdapter(rooms);
+        RoomAdapter adapter = getRoomAdapter(rooms);
         floorHolder.floorName.setText(floors.get(i).getName());
         floorHolder.recyclerView.setHasFixedSize(true);
         floorHolder.recyclerView.setLayoutManager(
                 new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         floorHolder.recyclerView.setAdapter(adapter);
         adapter.setOnRoomClickListener(listener);
+    }
+
+    public RoomAdapter getRoomAdapter(List<Room> rooms){
+        return new RoomAdapter(rooms);
     }
 
     @Override

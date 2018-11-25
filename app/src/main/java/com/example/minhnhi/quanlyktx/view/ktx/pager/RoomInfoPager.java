@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Area;
 import com.example.minhnhi.quanlyktx.beans.Room;
-import com.example.minhnhi.quanlyktx.utils.RoomPager;
 
 public class RoomInfoPager extends Fragment implements RoomPager {
 
@@ -43,12 +42,13 @@ public class RoomInfoPager extends Fragment implements RoomPager {
     }
 
     public void loadData(Room room) {
+        if(room == null || room.getFloor() == null) return;
         Area area = room.getFloor().getArea();
         roomAds = "Phòng " + room.getName() + " " + area.getName();
         numBed = room.getNumberBed();
         numSV = room.getStudentPresent();
         numRegister = room.getStudentRegister();
-        price = "140000 VNĐ";
+        price = "100000 VNĐ";
     }
 
     @Override

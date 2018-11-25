@@ -1,9 +1,11 @@
 package com.example.minhnhi.quanlyktx.view.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.utils.JsonAPI;
 
 import java.io.IOException;
@@ -13,9 +15,11 @@ import java.util.concurrent.ExecutionException;
 public class HomePageMgr {
     private HashMap<Integer, HomePage> cachePage;
     private HomePageFactory factory;
+    private Context context;
 
-    public HomePageMgr(){
+    public HomePageMgr(Context context){
         cachePage = new HashMap<>();
+        this.context = context;
     }
 
     public void setPageFactory(HomePageFactory factory){
@@ -46,8 +50,10 @@ public class HomePageMgr {
                 @Override
                 protected String doInBackground(Void... voids) {
                     String json = "";
+                    String host = context.getResources().getString(R.string.host);
+                    String uri = context.getResources().getString(page.getAPI());
                     try {
-                         json = JsonAPI.get(page.getAPI());
+                         json = JsonAPI.get(host+uri);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

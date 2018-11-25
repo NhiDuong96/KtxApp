@@ -3,10 +3,9 @@ package com.example.minhnhi.quanlyktx.view.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,24 +14,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.minhnhi.quanlyktx.view.ktx.KtxActivity;
-import com.example.minhnhi.quanlyktx.view.login.LoginActivity;
 import com.example.minhnhi.quanlyktx.R;
-import com.example.minhnhi.quanlyktx.view.user.UserActivity;
 import com.example.minhnhi.quanlyktx.beans.UserAccount;
 import com.example.minhnhi.quanlyktx.utils.AccountManager;
+import com.example.minhnhi.quanlyktx.view.activity.RegisterActivity;
+import com.example.minhnhi.quanlyktx.view.ktx.KtxActivity;
+import com.example.minhnhi.quanlyktx.view.login.LoginActivity;
+import com.example.minhnhi.quanlyktx.view.user.UserActivity;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
    private NotificationListFragment notificationListFragment;
+   public Toolbar toolbar;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.home_title);
         findViewById(R.id.next).setOnClickListener(this);
@@ -42,6 +44,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, notificationListFragment)
                 .commit();
+    }
+
+    public void setToolbarTitle(String title) {
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(title);
     }
 
     @Override
@@ -67,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.activity:
                 if(isLogged()){
-                    directToActivityPage();
+                    directToActivityPage(getUserAccount());
                 }else{
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivityForResult(intent,8002);
@@ -87,7 +94,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             if(requestCode == 8001){
                 directToUserPage(userAccount);
             }else if(requestCode == 8002){
-                directToActivityPage();
+                directToActivityPage(userAccount);
             }
         }
     }
@@ -106,8 +113,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void directToActivityPage(){
+    public void directToActivityPage(UserAccount account){
         Toast.makeText(this, "Activity Page", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, RegisterActivity.class);
+        intent.putExtra("account", account);
+        startActivity(intent);
     }
 
     public boolean isLogged(){

@@ -19,16 +19,13 @@ import android.widget.TextView;
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.beans.UserProfile;
-import com.example.minhnhi.quanlyktx.cmd.RoomsResponse;
 import com.example.minhnhi.quanlyktx.cmd.StudentResponse;
 import com.example.minhnhi.quanlyktx.utils.JsonAPI;
-import com.example.minhnhi.quanlyktx.utils.RoomPager;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class RoomSVListPager extends Fragment implements RoomPager {
     private List<StudentModel> studentModels;
@@ -66,23 +63,15 @@ public class RoomSVListPager extends Fragment implements RoomPager {
                             String.valueOf(room.getId());
                     json = JsonAPI.get(uri);
                     Log.e("data", json);
-                    publishProgress(json);
+                    Gson gson = new Gson();
+                    StudentResponse result = gson.fromJson(json, StudentResponse.class);
+                    for(UserProfile profile: result.entries){
+                        studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return json;
-            }
-
-            @Override
-            protected void onProgressUpdate(String... values) {
-                super.onProgressUpdate(values);
-
-                String json = values[0];
-                Gson gson = new Gson();
-                StudentResponse result = gson.fromJson(json, StudentResponse.class);
-                for(UserProfile profile: result.entries){
-                    studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
-                }
             }
 
             @Override

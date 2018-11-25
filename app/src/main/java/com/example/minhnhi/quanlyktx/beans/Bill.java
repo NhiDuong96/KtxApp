@@ -9,27 +9,32 @@ public class Bill {
     private int month;
     @SerializedName("year")
     private int year;
-    @SerializedName("oldNumber")
-    private int oldNumber;
-    @SerializedName("newNumber")
-    private int newNumber;
+    @SerializedName("level_water")
+    private int level_water;
+    @SerializedName("level_elec")
+    private int level_elec;
     @SerializedName("total")
     private float total;
-    @SerializedName("type")
-    private int type;
-    @SerializedName("roomId")
+    @SerializedName("room_id")
     private int roomId;
-    @SerializedName("costId")
-    private int costId;
-    @SerializedName("level")
-    private int level;
+    @SerializedName("new_number_water")
+    private int new_number_water;
+    @SerializedName("new_number_elec")
+    private int new_number_elec;
+    @SerializedName("old_number_water")
+    private int old_number_water;
+    @SerializedName("old_number_elec")
+    private int old_number_elec;
+    @SerializedName("cost_water")
+    private float cost_water;
+    @SerializedName("cost_elec")
+    private float cost_elec;
+    @SerializedName("total_water")
+    private float total_water;
+    @SerializedName("total_elec")
+    private float total_elec;
     @SerializedName("status")
     private int status;
-
-    public class BillType{
-        public static final int ELECTRIC_BILL = 0;
-        public static final int WATER_BILL = 1;
-    }
 
     public class BillStatus {
         public static final int DEBT = 0;
@@ -60,20 +65,20 @@ public class Bill {
         this.year = year;
     }
 
-    public int getOldNumber() {
-        return oldNumber;
+    public int getLevel_water() {
+        return level_water;
     }
 
-    public void setOldNumber(int oldNumber) {
-        this.oldNumber = oldNumber;
+    public void setLevel_water(int level_water) {
+        this.level_water = level_water;
     }
 
-    public int getNewNumber() {
-        return newNumber;
+    public int getLevel_elec() {
+        return level_elec;
     }
 
-    public void setNewNumber(int newNumber) {
-        this.newNumber = newNumber;
+    public void setLevel_elec(int level_elec) {
+        this.level_elec = level_elec;
     }
 
     public float getTotal() {
@@ -84,14 +89,6 @@ public class Bill {
         this.total = total;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public int getRoomId() {
         return roomId;
     }
@@ -100,20 +97,68 @@ public class Bill {
         this.roomId = roomId;
     }
 
-    public int getCostId() {
-        return costId;
+    public int getNew_number_water() {
+        return new_number_water;
     }
 
-    public void setCostId(int costId) {
-        this.costId = costId;
+    public void setNew_number_water(int new_number_water) {
+        this.new_number_water = new_number_water;
     }
 
-    public int getLevel() {
-        return level;
+    public int getNew_number_elec() {
+        return new_number_elec;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setNew_number_elec(int new_number_elec) {
+        this.new_number_elec = new_number_elec;
+    }
+
+    public int getOld_number_water() {
+        return old_number_water;
+    }
+
+    public void setOld_number_water(int old_number_water) {
+        this.old_number_water = old_number_water;
+    }
+
+    public int getOld_number_elec() {
+        return old_number_elec;
+    }
+
+    public void setOld_number_elec(int old_number_elec) {
+        this.old_number_elec = old_number_elec;
+    }
+
+    public float getCost_water() {
+        return cost_water;
+    }
+
+    public void setCost_water(float cost_water) {
+        this.cost_water = cost_water;
+    }
+
+    public float getCost_elec() {
+        return cost_elec;
+    }
+
+    public void setCost_elec(float cost_elec) {
+        this.cost_elec = cost_elec;
+    }
+
+    public float getTotal_water() {
+        return total_water;
+    }
+
+    public void setTotal_water(float total_water) {
+        this.total_water = total_water;
+    }
+
+    public float getTotal_elec() {
+        return total_elec;
+    }
+
+    public void setTotal_elec(float total_elec) {
+        this.total_elec = total_elec;
     }
 
     public int getStatus() {

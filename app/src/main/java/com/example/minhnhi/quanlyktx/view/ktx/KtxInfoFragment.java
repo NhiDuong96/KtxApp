@@ -1,6 +1,7 @@
 package com.example.minhnhi.quanlyktx.view.ktx;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,10 +63,14 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
         areasName.setOnItemSelectedListener(selectedListener);
         RecyclerView recyclerView = view.findViewById(R.id.floorList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        floorAdapter = new FloorAdapter(getContext(), floorList);
+        floorAdapter = getFloorAdapter(getContext(), floorList);
         floorAdapter.setOnRoomClickListener(KtxInfoFragment.this);
         recyclerView.setAdapter(floorAdapter);
         return view;
+    }
+
+    public FloorAdapter getFloorAdapter(Context context, List<Floor> floors){
+        return new FloorAdapter(context, floors);
     }
 
     AdapterView.OnItemSelectedListener selectedListener = new AdapterView.OnItemSelectedListener() {
@@ -192,6 +197,7 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
 
                 RoomsResponse result = gson.fromJson(floorJson, RoomsResponse.class);
                 List<Room> roomList = new ArrayList<>(result.entries);
+                Log.e("debug", "call");
                 for(Room room: roomList){
                     room.setFloor(floor);
                 }
@@ -209,7 +215,6 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
 
     @Override
     public void onRoomClick(Room room) {
-        Log.e("debug", room.getName());
         startAnimation.onAnimationStart(room);
     }
 }

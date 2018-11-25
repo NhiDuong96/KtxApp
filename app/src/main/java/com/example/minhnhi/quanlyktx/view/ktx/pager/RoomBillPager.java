@@ -16,13 +16,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Bill;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.cmd.BillsResponse;
 import com.example.minhnhi.quanlyktx.utils.JsonAPI;
-import com.example.minhnhi.quanlyktx.utils.RoomPager;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.util.Calendar;
 public class RoomBillPager extends Fragment implements RoomPager {
 
     private Room room;
-    private Bill water_bill, electric_bill;
+    private Bill bill;
     private View view;
 
     @Override
@@ -80,32 +80,54 @@ public class RoomBillPager extends Fragment implements RoomPager {
             int month = (int) spinMonth.getSelectedItem();
             int year = (int) spinYear.getSelectedItem();
             loadData(room,month,year);
-            viewData();
+            try {
+                viewData();
+            } catch (Exception e) {
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
-        viewData();
+        try {
+            viewData();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
-    private void viewData(){
-        if(electric_bill == null || water_bill == null) return;
+    private void viewData() throws Exception{
+        if(bill == null) return;
         TextView tv;
-        tv = view.findViewById(R.id.oldNumElectric); tv.setText(String.valueOf(electric_bill.getOldNumber()));
-        tv = view.findViewById(R.id.newNumElectric); tv.setText(String.valueOf(electric_bill.getNewNumber()));
+        tv = view.findViewById(R.id.oldNumElectric);
+        tv.setText(String.valueOf(bill.getOld_number_elec()));
+        tv = view.findViewById(R.id.newNumElectric);
+        tv.setText(String.valueOf(bill.getNew_number_elec()));
         tv = view.findViewById(R.id.revenueElectric);
-        tv.setText(String.valueOf(electric_bill.getNewNumber() - electric_bill.getOldNumber()));
-        tv = view.findViewById(R.id.costElectric); tv.setText(String.valueOf(electric_bill.getTotal()));
+        tv.setText(String.valueOf(bill.getNew_number_elec() - bill.getOld_number_elec()));
+        tv = view.findViewById(R.id.totalElectric);
+        tv.setText(String.valueOf(bill.getTotal_elec()));
+        tv = view.findViewById(R.id.costElec);
+        tv.setText(String.valueOf(bill.getCost_elec()));
+        tv = view.findViewById(R.id.levelElec);
+        tv.setText(String.valueOf(bill.getLevel_elec()));
 
-        tv = view.findViewById(R.id.oldNumWater); tv.setText(String.valueOf(water_bill.getOldNumber()));
-        tv = view.findViewById(R.id.newNumWater); tv.setText(String.valueOf(water_bill.getNewNumber()));
+        tv = view.findViewById(R.id.oldNumWater);
+        tv.setText(String.valueOf(bill.getOld_number_water()));
+        tv = view.findViewById(R.id.newNumWater);
+        tv.setText(String.valueOf(bill.getNew_number_elec()));
         tv = view.findViewById(R.id.revenueWater);
-        tv.setText(String.valueOf(water_bill.getNewNumber()- water_bill.getOldNumber()));
-        tv = view.findViewById(R.id.costWater); tv.setText(String.valueOf(water_bill.getTotal()));
+        tv.setText(String.valueOf(bill.getNew_number_water()- bill.getOld_number_water()));
+        tv = view.findViewById(R.id.totalWater);
+        tv.setText(String.valueOf(bill.getTotal_water()));
+        tv = view.findViewById(R.id.costWater);
+        tv.setText(String.valueOf(bill.getCost_water()));
+        tv = view.findViewById(R.id.levelWater);
+        tv.setText(String.valueOf(bill.getLevel_water()));
 
-        String s = String.valueOf(water_bill.getTotal() + electric_bill.getTotal()) + " VNĐ";
+        String s = String.valueOf(bill.getTotal()) + " VNĐ";
         tv = view.findViewById(R.id.costTotal); tv.setText(s);
         CheckBox cb;
         cb = view.findViewById(R.id.payCb);
-        if(water_bill.getStatus() == Bill.BillStatus.PAID && electric_bill.getStatus() == Bill.BillStatus.PAID){
+        if(bill.getStatus() == Bill.BillStatus.PAID){
             cb.setEnabled(false);
             cb.setText("Đã nộp");
         }else{
@@ -131,28 +153,13 @@ public class RoomBillPager extends Fragment implements RoomPager {
                             String.valueOf(thisYear);
                     json = JsonAPI.get(uri);
                     Log.e("data", json);
-                    publishProgress(json);
+                    Gson gson = new Gson();
+                    BillsResponse result = gson.fromJson(json, BillsResponse.class);
+                    RoomBillPager.this.bill = result.entry;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return json;
-            }
-
-            @Override
-            protected void onProgressUpdate(String... values) {
-                super.onProgressUpdate(values);
-
-                String json = values[0];
-                Gson gson = new Gson();
-                BillsResponse result = gson.fromJson(json, BillsResponse.class);
-                for(Bill bill: result.entries){
-                    if(bill.getType() == Bill.BillType.ELECTRIC_BILL){
-                        electric_bill = bill;
-                    }
-                    else if(bill.getType() == Bill.BillType.WATER_BILL){
-                        water_bill = bill;
-                    }
-                }
             }
         };
         task.execute();

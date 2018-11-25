@@ -14,6 +14,7 @@ import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.utils.OnSlideAnimationEndListener;
 import com.example.minhnhi.quanlyktx.utils.OnSlideAnimationStartListener;
+import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomPagerFactory;
 
 public class KtxActivity extends AppCompatActivity implements
         OnSlideAnimationEndListener,
@@ -43,16 +44,20 @@ public class KtxActivity extends AppCompatActivity implements
             return;
         }
         mIsAnimating = true;
-        RoomDetailsFragment roomDetailsFragment = new RoomDetailsFragment();
-        roomDetailsFragment.setRoom(room);
-        roomDetailsFragment.setOnSlideFragmentAnimationEnd(this);
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.animator.slide_fragment_in, 0, 0, R.animator.slide_fragment_out)
-                .add(R.id.container, roomDetailsFragment)
+                .add(R.id.container, getRoomDetailsFragment(room))
                 .addToBackStack("details")
                 .commit();
+    }
+
+    public RoomDetailsFragment getRoomDetailsFragment(Room room){
+        RoomDetailsFragment roomDetailsFragment = new RoomDetailsFragment();
+        roomDetailsFragment.setRoom(room);
+        roomDetailsFragment.setPagerFactory(new RoomPagerFactory());
+        roomDetailsFragment.setOnSlideFragmentAnimationEnd(this);
+        return roomDetailsFragment;
     }
 
     @Override

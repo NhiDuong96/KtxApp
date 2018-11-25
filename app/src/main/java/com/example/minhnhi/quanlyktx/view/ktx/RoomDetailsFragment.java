@@ -20,21 +20,23 @@ import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomBillPager;
 import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomInfoPager;
+import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomPagerFactory;
 import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomSVListPager;
 import com.example.minhnhi.quanlyktx.utils.OnSlideAnimationEndListener;
 
 public class RoomDetailsFragment extends Fragment {
     private static final int NUM_PAGES = 3;
     private OnSlideAnimationEndListener mListener;
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
     private Room room;
+    private RoomPagerFactory pagerFactory;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.room_details_fragment, container, false);
-        mPager = view.findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+        ViewPager mPager = view.findViewById(R.id.pager);
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         return view;
     }
@@ -66,6 +68,10 @@ public class RoomDetailsFragment extends Fragment {
         this.room = room;
     }
 
+    public void setPagerFactory(RoomPagerFactory pagerFactory) {
+        this.pagerFactory = pagerFactory;
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -73,21 +79,7 @@ public class RoomDetailsFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    RoomInfoPager pager = new RoomInfoPager();
-                    pager.setRoom(room);
-                    return pager;
-                case 1:
-                    RoomSVListPager svPager = new RoomSVListPager();
-                    svPager.setRoom(room);
-                    return svPager;
-                case 2:
-                    RoomBillPager billPager = new RoomBillPager();
-                    billPager.setRoom(room);
-                    return billPager;
-            }
-            return new RoomInfoPager();
+           return (Fragment)pagerFactory.createPage(position, room);
         }
 
         @Override

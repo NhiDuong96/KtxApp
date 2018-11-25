@@ -9,10 +9,14 @@ public class Notification {
     private int id;
     @SerializedName("title")
     private String title;
-    @SerializedName("timestamp")
+    @SerializedName("time")
     private Date postDate;
     @SerializedName("content")
     private String content;
+    @SerializedName("status")
+    private int status;
+    @SerializedName("user_id")
+    private int user_id;
 
     public Notification(int id, String title, Date postDate, String content) {
         this.id = id;
@@ -53,4 +57,19 @@ public class Notification {
         this.content = content;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 }

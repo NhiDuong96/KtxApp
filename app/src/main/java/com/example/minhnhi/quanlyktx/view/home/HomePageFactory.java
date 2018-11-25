@@ -1,8 +1,11 @@
 package com.example.minhnhi.quanlyktx.view.home;
 
 import com.example.minhnhi.quanlyktx.view.home.page.NotificationPage;
+import com.example.minhnhi.quanlyktx.view.home.page.RecruitmentPage;
 
-public class HomePageFactory {
+class HomePageFactory {
+    public static final int MAX_PAGE = 4;
+
     public static final int NOTIFICATION = 0;
     public static final int RECRUITMENT = 1;
     public static final int DOCUMENT = 2;
@@ -15,7 +18,7 @@ public class HomePageFactory {
             case NOTIFICATION:
                 return new NotificationPage();
             case RECRUITMENT:
-                return new NotificationPage();
+                return new RecruitmentPage();
             case DOCUMENT:
                 return new NotificationPage();
             case FORM:
@@ -25,30 +28,14 @@ public class HomePageFactory {
         return new NotificationPage();
     }
 
-    public int nextPage(){
-        if(currentPageId == NOTIFICATION){
-            currentPageId = RECRUITMENT;
-        }else if(currentPageId == RECRUITMENT){
-            currentPageId = DOCUMENT;
-        }else if(currentPageId == DOCUMENT){
-            currentPageId = FORM;
-        }else if(currentPageId == FORM){
-            currentPageId = NOTIFICATION;
-        }
+    int nextPage(){
+        currentPageId = (currentPageId >= (MAX_PAGE - 1))? 0 : currentPageId+1;
         return currentPageId;
     }
 
 
-    public int previousPage(){
-        if(currentPageId == NOTIFICATION){
-            currentPageId = FORM;
-        }else if(currentPageId == RECRUITMENT){
-            currentPageId = NOTIFICATION;
-        }else if(currentPageId == DOCUMENT){
-            currentPageId = RECRUITMENT;
-        }else if(currentPageId == FORM){
-            currentPageId = DOCUMENT;
-        }
+    int previousPage(){
+        currentPageId = (currentPageId <= 0)? MAX_PAGE - 1 : currentPageId-1;
         return currentPageId;
     }
 

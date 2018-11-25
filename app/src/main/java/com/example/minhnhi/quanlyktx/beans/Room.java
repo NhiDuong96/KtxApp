@@ -3,6 +3,7 @@ package com.example.minhnhi.quanlyktx.beans;
 import com.google.gson.annotations.SerializedName;
 
 public class Room {
+
     @SerializedName("id")
     private int id;
     @SerializedName("name")
