@@ -38,7 +38,7 @@ public class KtxActivity extends AppCompatActivity implements
             actionBar.setHomeAsUpIndicator(R.mipmap.home_icon);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        Log.e("debug", "??????");
+      
         KtxInfoFragment ktxInfoFragment = new KtxInfoFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, ktxInfoFragment)

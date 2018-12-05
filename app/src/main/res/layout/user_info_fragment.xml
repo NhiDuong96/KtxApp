@@ -75,30 +75,6 @@
         android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         style="@style/Widget.AppCompat.Spinner.Underlined"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Ngày sinh:" />
-    <EditText
-        android:id="@+id/birthday"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginLeft="@dimen/fab_margin" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="CMND:" />
-    <EditText
-        android:id="@+id/cmnd"
-        android:inputType="number"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/fab_margin"
-        android:layout_marginLeft="@dimen/fab_margin" />
     <com.example.minhnhi.quanlyktx.utils.InputView
         android:id="@+id/className"
         app:label="Lớp SH:"

@@ -15,6 +15,8 @@ import com.example.minhnhi.quanlyktx.beans.UserAccount;
 import com.example.minhnhi.quanlyktx.cmd.AccountRequest;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -66,9 +68,9 @@ public class AccountManager implements Serializable{
                 UserAccount user = null;
                 try {
                     String json = JsonAPI.postForResponse(new Gson().toJson(req), uri, HttpURLConnection.HTTP_OK);
-                    user = new Gson().fromJson(json, UserAccount.class);
+                    user = UserAccount.parseJson(json);
                     isLogged = true;
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     isLogged = false;
                 }
                 return user;

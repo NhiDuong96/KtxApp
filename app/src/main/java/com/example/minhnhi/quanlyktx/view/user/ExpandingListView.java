@@ -192,9 +192,9 @@ public class ExpandingListView extends ListView {
         expandingLayout.setVisibility(View.VISIBLE);
 
         /* Add an onPreDraw Listener to the listview. onPreDraw will get invoked after onLayout
-        * and onMeasure have run but before anything has been drawn. This
-        * means that the final post layout properties for all the items have already been
-        * determined, but still have not been rendered onto the screen.*/
+         * and onMeasure have run but before anything has been drawn. This
+         * means that the final post layout properties for all the items have already been
+         * determined, but still have not been rendered onto the screen.*/
         final ViewTreeObserver observer = getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -205,9 +205,9 @@ public class ExpandingListView extends ListView {
                     mShouldRemoveObserver = true;
 
                     /* Calculate what the parameters should be for setSelectionFromTop.
-                    * The ListView must be offset in a way, such that after the animation
-                    * takes place, all the cells that remain visible are rendered completely
-                    * by the ListView.*/
+                     * The ListView must be offset in a way, such that after the animation
+                     * takes place, all the cells that remain visible are rendered completely
+                     * by the ListView.*/
                     int newTop = view.getTop();
                     int newBottom = view.getBottom();
 
@@ -264,11 +264,11 @@ public class ExpandingListView extends ListView {
                 int index = indexOfChild(view);
 
                 /* Loop through all the views that were on the screen before the cell was
-                *  expanded. Some cells will still be children of the ListView while
-                *  others will not. The cells that remain children of the ListView
-                *  simply have their bounds animated appropriately. The cells that are no
-                *  longer children of the ListView also have their bounds animated, but
-                *  must also be added to a list of views which will be drawn in dispatchDraw.*/
+                 *  expanded. Some cells will still be children of the ListView while
+                 *  others will not. The cells that remain children of the ListView
+                 *  simply have their bounds animated appropriately. The cells that are no
+                 *  longer children of the ListView also have their bounds animated, but
+                 *  must also be added to a list of views which will be drawn in dispatchDraw.*/
                 for (View v: oldCoordinates.keySet()) {
                     int[] old = oldCoordinates.get(v);
                     v.setTop(old[0]);
@@ -366,7 +366,7 @@ public class ExpandingListView extends ListView {
      *    animation process.
      */
 
-     private void collapseView(final View view, final ExpandableNotificationItem viewObject) {
+    private void collapseView(final View view, final ExpandableNotificationItem viewObject) {
 
         /* Store the original top and bottom bounds of all the cells.*/
         final int oldTop = view.getTop();
@@ -384,7 +384,7 @@ public class ExpandingListView extends ListView {
         /* Update the layout so the extra content becomes invisible.*/
         view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, viewObject.getCollapsedHeight()));
 
-         /* Add an onPreDraw listener. */
+        /* Add an onPreDraw listener. */
         final ViewTreeObserver observer = getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -393,8 +393,8 @@ public class ExpandingListView extends ListView {
 
                 if (!mShouldRemoveObserver) {
                     /*Same as for expandingView, the parameters for setSelectionFromTop must
-                    * be determined such that the necessary cells of the ListView are rendered
-                    * and added to it.*/
+                     * be determined such that the necessary cells of the ListView are rendered
+                     * and added to it.*/
                     mShouldRemoveObserver = true;
 
                     int newTop = view.getTop();

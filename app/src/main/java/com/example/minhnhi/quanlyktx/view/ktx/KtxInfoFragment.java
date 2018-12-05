@@ -176,7 +176,6 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
                     for(Floor floor: floorList) {
                         String uri = res.getString(R.string.host) +
                                 res.getString(R.string.get_rooms_uri) +
-                                String.valueOf(floor.getAreaId()) + "/" +
                                 String.valueOf(floor.getId());
                         json = JsonAPI.get(uri);
                         Log.e("data", json);

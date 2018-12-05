@@ -3,9 +3,10 @@ package com.example.minhnhi.quanlyktx.beans;
 import com.example.minhnhi.quanlyktx.utils.TimeParser;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserProfile {
+public class UserProfile implements Serializable {
     @SerializedName("mssv")
     private String mssv;
     @SerializedName("fullName")
@@ -14,10 +15,6 @@ public class UserProfile {
     private int gender;
     @SerializedName("year")
     private String year;
-    @SerializedName("birthday")
-    private String birthday;
-    @SerializedName("cmnd")
-    private String cmnd;
     @SerializedName("nameClass")
     private String className;
     @SerializedName("phone")
@@ -55,23 +52,6 @@ public class UserProfile {
 
     public void setYear(String year) {
         this.year = year;
-    }
-
-    public String getBirthday() {
-        if(birthday == null) return TimeParser.parse(new Date(), TimeParser.DATE_PATTERN_1);
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getCmnd() {
-        return cmnd;
-    }
-
-    public void setCmnd(String cmnd) {
-        this.cmnd = cmnd;
     }
 
     public String getClassName() {

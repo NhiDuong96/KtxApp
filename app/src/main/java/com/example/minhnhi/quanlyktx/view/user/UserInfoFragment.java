@@ -72,7 +72,8 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.save).setOnClickListener(this);
         view.findViewById(R.id.reset).setOnClickListener(this);
 
-        UserProfile profile = loadUserProfile();
+        //UserProfile profile = loadUserProfile();
+        UserProfile profile = this.account.getProfile();
         if(profile == null) return view;
         InputView v = view.findViewById(R.id.mssv);
         v.setText(profile.getMssv());
@@ -85,17 +86,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
 
         EditText editText = view.findViewById(R.id.phone);
         editText.setText(profile.getPhone());
-
-        editText = view.findViewById(R.id.cmnd);
-        editText.setText(profile.getCmnd());
-
-        birthday = view.findViewById(R.id.birthday);
-        birthday.setText(profile.getBirthday());
-        birthday.setOnClickListener(v1 -> {
-            new DatePickerDialog(UserInfoFragment.this.getContext(), date,
-                    myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-        });
 
         Spinner spinner = view.findViewById(R.id.gender);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, Gender.keys());
@@ -121,37 +111,37 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
         this.account = account;
     }
 
-    public UserProfile loadUserProfile(){
-        UserProfile profile = null;
-        Resources res = getResources();
-
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, Void, UserProfile> task = new AsyncTask<Void, Void, UserProfile>() {
-            @Override
-            protected UserProfile doInBackground(Void... voids) {
-                String json;
-                try {
-                    json = JsonAPI.get(res.getString(R.string.host)
-                            + res.getString(R.string.user_info_uri) +
-                            + account.getId());
-                    Log.e("data", json);
-                    return new Gson().fromJson(json, UserProfileResponse.class).entry;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        task.execute();
-        try {
-            profile = task.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return profile;
-    }
+//    public UserProfile loadUserProfile(){
+//        UserProfile profile = null;
+//        Resources res = getResources();
+//
+//        @SuppressLint("StaticFieldLeak")
+//        AsyncTask<Void, Void, UserProfile> task = new AsyncTask<Void, Void, UserProfile>() {
+//            @Override
+//            protected UserProfile doInBackground(Void... voids) {
+//                String json;
+//                try {
+//                    json = JsonAPI.get(res.getString(R.string.host)
+//                            + res.getString(R.string.user_info_uri) +
+//                            + account.getId());
+//                    Log.e("data", json);
+//                    return new Gson().fromJson(json, UserProfileResponse.class).entry;
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                return null;
+//            }
+//        };
+//        task.execute();
+//        try {
+//            profile = task.get();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+//        return profile;
+//    }
 
     public String getUserNotification(){
         notifications = new ArrayList<>();
@@ -206,10 +196,6 @@ public class UserInfoFragment extends Fragment implements View.OnClickListener {
                 Spinner spinner = view.findViewById(R.id.year);
                 spinner.setSelection(years.size()-1);
                 EditText ed;
-                ed = view.findViewById(R.id.birthday);
-                ed.setText("");
-                ed = view.findViewById(R.id.cmnd);
-                ed.setText("");
                 ed = view.findViewById(R.id.phone);
                 ed.setText("");
                 InputView v;

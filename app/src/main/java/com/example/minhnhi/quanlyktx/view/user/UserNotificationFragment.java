@@ -94,7 +94,7 @@ public class UserNotificationFragment extends Fragment implements View.OnClickLi
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
-                    JsonAPI.post("", uri + nf.getId());
+                    JsonAPI.get(uri + nf.getId());
                     return true;
                 } catch (IOException e) {
                     e.printStackTrace();

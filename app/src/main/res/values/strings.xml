@@ -16,7 +16,7 @@
 
     <!-- uri host-->
     <string name="host1">http://demo2159415.mockable.io/</string>
-    <string name="host">http://7aa12280.ngrok.io/</string>
+    <string name="host">http://88ebe58e.ngrok.io/</string>
 
     <!-- uri api-->
     <string name="login_uri">api/user/student/login</string>
@@ -24,7 +24,7 @@
     <string name="user_notification_uri">api/notification/user/</string>
     <string name="user_info_uri">api/user/get_user_detail/</string>
     <string name="read_notification_uri">api/notification/user/read/</string>
-    <string name="delete_notification_uri">api/notification/user/delete/</string>
+    <string name="delete_notification_uri">api/notification/delete/</string>
 
     <string name="get_areas_uri">api/areas</string>
     <string name="get_floors_uri">api/floor/</string>
