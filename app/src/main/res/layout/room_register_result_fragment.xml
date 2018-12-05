@@ -29,6 +29,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Ban da dang ky thanh cong vao phong ... hay xac nhan dang ky"
         style="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+    <View
+        android:layout_marginTop="@dimen/fab_margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+
+    <Button
+        android:id="@+id/cancel"
+        android:text="Hủy đăng ký"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/btn_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>

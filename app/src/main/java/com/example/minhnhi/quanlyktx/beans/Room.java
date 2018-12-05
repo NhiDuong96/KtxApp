@@ -79,15 +79,15 @@ public class Room {
         return functionId;
     }
 
-    public String getUsedNumber(){
-        return String.valueOf(studentPresent) + "/" + String.valueOf(studentMax);
-    }
-
     public Floor getFloor() {
         return floor;
     }
 
     public void setFloor(Floor floor) {
         this.floor = floor;
+    }
+
+    public String getRoomCost(){
+        return "100000";
     }
 }

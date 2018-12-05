@@ -31,6 +31,7 @@ public class UserActivity extends AppCompatActivity{
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.user_title);
+            actionBar.setHomeAsUpIndicator(R.mipmap.home_icon);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 

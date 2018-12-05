@@ -41,6 +41,16 @@ public class Bill {
         public static final int PAID = 1;
     }
 
+    public Bill(){
+        level_elec = level_water = 0;
+        new_number_elec = new_number_water = 0;
+        old_number_elec = old_number_water = 0;
+        cost_elec = cost_water = 0;
+        total_elec = total_water = 0;
+        total = 0;
+        status = BillStatus.DEBT;
+    }
+
     public int getId() {
         return id;
     }

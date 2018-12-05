@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.UserAccount;
 import com.example.minhnhi.quanlyktx.utils.AccountManager;
-import com.example.minhnhi.quanlyktx.view.activity.RegisterActivity;
+import com.example.minhnhi.quanlyktx.view.activity.RoomRegisterActivity;
 import com.example.minhnhi.quanlyktx.view.ktx.KtxActivity;
 import com.example.minhnhi.quanlyktx.view.login.LoginActivity;
 import com.example.minhnhi.quanlyktx.view.user.UserActivity;
@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //AccountManager.getAccountManager().logOut(getBaseContext());
         switch (item.getItemId()){
             case R.id.ktx:
                 directToKtxPage();
@@ -115,7 +116,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void directToActivityPage(UserAccount account){
         Toast.makeText(this, "Activity Page", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, RoomRegisterActivity.class);
         intent.putExtra("account", account);
         startActivity(intent);
     }

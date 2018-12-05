@@ -3,7 +3,6 @@ package com.example.minhnhi.quanlyktx.view.ktx.pager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Area;
 import com.example.minhnhi.quanlyktx.beans.Room;
 
-public class RoomInfoPager extends Fragment implements RoomPager {
-
+public class RoomInfoPager extends RoomPager {
     private String roomAds;
     private int numBed;
     private int numSV;
     private int numRegister;
     private String price;
-    private Room room;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +46,7 @@ public class RoomInfoPager extends Fragment implements RoomPager {
         numBed = room.getNumberBed();
         numSV = room.getStudentPresent();
         numRegister = room.getStudentRegister();
-        price = "100000 VNĐ";
+        price = room.getRoomCost() + " VNĐ";
     }
 
-    @Override
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 }

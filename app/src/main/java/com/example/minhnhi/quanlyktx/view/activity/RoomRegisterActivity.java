@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.RegisterRoom;
@@ -14,12 +15,11 @@ import com.example.minhnhi.quanlyktx.view.activity.pager.RoomRegisterPagerFactor
 import com.example.minhnhi.quanlyktx.view.ktx.KtxActivity;
 import com.example.minhnhi.quanlyktx.view.ktx.RoomDetailsFragment;
 
-public class RegisterActivity extends KtxActivity implements OnRegisterListener {
+public class RoomRegisterActivity extends KtxActivity implements OnRegisterListener {
     private UserAccount account;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(){
         setContentView(R.layout.activity_ktx);
 
         Intent intent = getIntent();
@@ -28,6 +28,7 @@ public class RegisterActivity extends KtxActivity implements OnRegisterListener 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.activity_title);
+            actionBar.setHomeAsUpIndicator(R.mipmap.home_icon);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -50,8 +51,8 @@ public class RegisterActivity extends KtxActivity implements OnRegisterListener 
     @Override
     public void onRegisterSuccess(RegisterRoom registerRoom) {
         RoomRegisterResultFragment fragment = new RoomRegisterResultFragment();
-        fragment.setRegisterRoom(registerRoom);
         fragment.setUserAccount(account);
+        fragment.setRegisterRoom(registerRoom);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)

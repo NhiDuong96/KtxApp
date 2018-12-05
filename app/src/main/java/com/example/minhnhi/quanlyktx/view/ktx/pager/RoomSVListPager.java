@@ -26,16 +26,16 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-public class RoomSVListPager extends Fragment implements RoomPager {
+public class RoomSVListPager extends RoomPager {
     private List<StudentModel> studentModels;
-    private Room room;
-    private StudentAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadData(room);
+        if(studentModels == null && room != null)
+            loadData(room);
     }
 
     @Nullable
@@ -43,7 +43,7 @@ public class RoomSVListPager extends Fragment implements RoomPager {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.room_students_pager, container, false);
         ListView listView = view.findViewById(R.id.list_item);
-        adapter = new StudentAdapter(getContext(), 0);
+        StudentAdapter adapter = new StudentAdapter(getContext(), studentModels);
         listView.setAdapter(adapter);
         return view;
     }
@@ -63,29 +63,23 @@ public class RoomSVListPager extends Fragment implements RoomPager {
                             String.valueOf(room.getId());
                     json = JsonAPI.get(uri);
                     Log.e("data", json);
-                    Gson gson = new Gson();
-                    StudentResponse result = gson.fromJson(json, StudentResponse.class);
-                    for(UserProfile profile: result.entries){
-                        studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return json;
             }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                adapter.notifyDataSetChanged();
-            }
         };
         task.execute();
-    }
 
-    @Override
-    public void setRoom(Room room) {
-        this.room = room;
+        Gson gson = new Gson();
+        try {
+            StudentResponse result = gson.fromJson(task.get(), StudentResponse.class);
+            for(UserProfile profile: result.entries){
+                studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public enum StudentStatus{
@@ -116,15 +110,16 @@ public class RoomSVListPager extends Fragment implements RoomPager {
     }
 
     class StudentAdapter extends ArrayAdapter<StudentModel>{
-
-        StudentAdapter(@NonNull Context context, int resource) {
-            super(context, resource);
+        List<StudentModel> res;
+        StudentAdapter(@NonNull Context context, List<StudentModel> resource) {
+            super(context, 0);
+            this.res = resource;
         }
 
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            StudentModel model = studentModels.get(position);
+            StudentModel model = res.get(position);
             if(convertView == null){
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.room_sv_item_layout, parent, false);
             }
@@ -137,7 +132,7 @@ public class RoomSVListPager extends Fragment implements RoomPager {
 
         @Override
         public int getCount() {
-            return studentModels.size();
+            return res.size();
         }
     }
 }

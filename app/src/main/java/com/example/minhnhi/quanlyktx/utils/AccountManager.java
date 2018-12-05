@@ -55,9 +55,10 @@ public class AccountManager implements Serializable{
         this.listener = listener;
     }
 
+
     @SuppressLint("StaticFieldLeak")
-    public void logIn(final Context context, String userName, String password, String uri, boolean remember){
-        AccountRequest req = new AccountRequest(userName, password);
+    public boolean logIn(final Context context, String mssv, String password, String uri, boolean remember){
+        AccountRequest req = new AccountRequest(mssv, "", password);
         AsyncTask<Void, Void, UserAccount> task = new AsyncTask<Void, Void, UserAccount>() {
 
             @Override
@@ -82,9 +83,43 @@ public class AccountManager implements Serializable{
             if(remember){
                 saveAccountToInternalStorage(context, account);
             }
+            return isLogged;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
+            return false;
         }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public boolean signIn(final Context context, String mssv, String password, String uri){
+        AccountRequest req = new AccountRequest(mssv, "", password);
+        AsyncTask<Void, Void, UserAccount> task = new AsyncTask<Void, Void, UserAccount>() {
+
+            @Override
+            protected UserAccount doInBackground(Void... voids) {
+                UserAccount user = null;
+                try {
+                    String json = JsonAPI.postForResponse(new Gson().toJson(req), uri, HttpURLConnection.HTTP_OK);
+                    user = new Gson().fromJson(json, UserAccount.class);
+                    isLogged = true;
+                } catch (IOException e) {
+                    isLogged = false;
+                }
+                return user;
+            }
+        };
+        task.execute();
+        try {
+            this.account = task.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            this.isLogged = false;
+        }
+        if(isLogged && listener != null){
+            listener.onLogged(this.account);
+            saveAccountToInternalStorage(context, account);
+        }
+        return isLogged;
     }
 
     public void logOut(Context context){

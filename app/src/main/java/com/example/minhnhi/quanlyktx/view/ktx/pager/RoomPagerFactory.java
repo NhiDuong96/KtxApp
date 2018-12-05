@@ -1,24 +1,32 @@
 package com.example.minhnhi.quanlyktx.view.ktx.pager;
 
 import com.example.minhnhi.quanlyktx.beans.Room;
+import com.example.minhnhi.quanlyktx.utils.OnSlideAnimationEndListener;
 
 public class RoomPagerFactory {
 
-    public RoomPager createPage(int pagePosition, Room room){
+    public RoomPager createPage(int pagePosition, Room room, OnSlideAnimationEndListener listener){
+        RoomPager pager = null;
         switch (pagePosition){
             case 0:
-                RoomInfoPager pager = new RoomInfoPager();
-                pager.setRoom(room);
-                return pager;
+                pager = new RoomInfoPager();
+                break;
             case 1:
-                RoomSVListPager svPager = new RoomSVListPager();
-                svPager.setRoom(room);
-                return svPager;
+                pager = new RoomSVListPager();
+                break;
             case 2:
-                RoomBillPager billPager = new RoomBillPager();
-                billPager.setRoom(room);
-                return billPager;
+                pager = new RoomBillPager();
+                break;
+            default:
+                pager = new RoomInfoPager();
+                break;
         }
-        return new RoomInfoPager();
+        pager.setRoom(room);
+        pager.setOnSlideFragmentAnimationEnd(listener);
+        return pager;
+    }
+
+    public int getNumOfPages() {
+        return 3;
     }
 }

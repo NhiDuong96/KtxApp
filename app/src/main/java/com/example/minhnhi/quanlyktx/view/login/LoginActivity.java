@@ -42,13 +42,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //element
 
         LinkText linkText = findViewById(R.id.forgot_password);
-        linkText.setClickListener(view -> Toast.makeText(LoginActivity.this, "hello", Toast.LENGTH_LONG).show());
+        linkText.setClickListener(view -> Toast.makeText(LoginActivity.this, "Đang phát triển", Toast.LENGTH_LONG).show());
+
+        linkText = findViewById(R.id.register);
+        linkText.setClickListener(view ->{
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
 
         name = findViewById(R.id.name);
         password = findViewById(R.id.password);
         remember = findViewById(R.id.remember);
 
-        name.setText("102140032");
+        name.setText("123123");
         password.setText("123");
         remember.setChecked(true);
         findViewById(R.id.btn_sign_in).setOnClickListener(this);
@@ -61,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_sign_in:
                 String nameStr = name.getText().toString(), passStr = password.getText().toString();
                 if(nameStr.isEmpty()){
-                    Toast.makeText(LoginActivity.this, "Tên đăng nhập trống!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Mã số sinh viên trống!", Toast.LENGTH_SHORT).show();
                     return;
                 }else if(passStr.isEmpty()){
                     Toast.makeText(LoginActivity.this, "Hãy nhập mật khẩu!", Toast.LENGTH_SHORT).show();
@@ -78,7 +84,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Resources res = getResources();
                 String uri = res.getString(R.string.host) + res.getString(R.string.login_uri);
 
-                accountManager.logIn(this, nameStr, passStr, uri, remember.isChecked());
+                boolean success = accountManager.logIn(this, nameStr, passStr, uri, remember.isChecked());
+                if(!success){
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
+                }
              break;
         }
     }

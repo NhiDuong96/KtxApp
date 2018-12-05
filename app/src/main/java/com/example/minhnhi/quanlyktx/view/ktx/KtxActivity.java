@@ -1,11 +1,13 @@
 package com.example.minhnhi.quanlyktx.view.ktx;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -24,14 +26,19 @@ public class KtxActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        onCreate();
+    }
+
+    protected void onCreate(){
         setContentView(R.layout.activity_ktx);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.ktx_title);
+            actionBar.setHomeAsUpIndicator(R.mipmap.home_icon);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        Log.e("debug", "??????");
         KtxInfoFragment ktxInfoFragment = new KtxInfoFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, ktxInfoFragment)
@@ -77,6 +84,8 @@ public class KtxActivity extends AppCompatActivity implements
     private static final int SWIPE_DURATION = 350;
     private static final int MOVE_DURATION = 150;
     private float mStartY;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if(mSwipeSlop < 0){

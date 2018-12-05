@@ -3,7 +3,6 @@ package com.example.minhnhi.quanlyktx.view.activity.pager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,12 @@ import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.view.activity.RoomRegisterDetailsFragment;
 import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomPager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RoomRegisterPager extends Fragment implements RoomPager, View.OnClickListener {
+public class RoomRegisterPager extends RoomPager implements View.OnClickListener {
 
     private String roomAds;
     private int numBed;
@@ -30,7 +30,6 @@ public class RoomRegisterPager extends Fragment implements RoomPager, View.OnCli
     private int numRegister;
     private String price;
     private int maxBed;
-    private Room room;
 
     private Spinner spinner;
 
@@ -44,10 +43,9 @@ public class RoomRegisterPager extends Fragment implements RoomPager, View.OnCli
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.room_register_info_pager, container, false);
-        TextView t1,t2,t3,t4,t5;
+        TextView t1,t2,t4,t5;
         t1 = view.findViewById(R.id.address); t1.setText(roomAds);
         t2 = view.findViewById(R.id.numBed); t2.setText(String.valueOf(numBed));
-        //t3 = view.findViewById(R.id.numSV); t3.setText(String.valueOf(numSV));
         t4 = view.findViewById(R.id.numRegister); t4.setText(String.valueOf(numRegister));
         t5 = view.findViewById(R.id.price); t5.setText(price);
         view.findViewById(R.id.register).setOnClickListener(this);
@@ -74,12 +72,7 @@ public class RoomRegisterPager extends Fragment implements RoomPager, View.OnCli
         //numSV = room.getStudentPresent();
         numRegister = room.getStudentRegister();
         maxBed = room.getStudentMax();
-        price = "100000 VNĐ";
-    }
-
-    @Override
-    public void setRoom(Room room) {
-        this.room = room;
+        price = room.getRoomCost();
     }
 
     @Override
@@ -92,7 +85,8 @@ public class RoomRegisterPager extends Fragment implements RoomPager, View.OnCli
                 RegisterRoom registerRoom = new RegisterRoom(room);
                 registerRoom.setNumRegister((Integer) spinner.getSelectedItem());
                 registerRoom.setYear(String.valueOf(date.getYear()));
-                registerRoom.setTimeRegister(date.toGMTString());
+                registerRoom.setTimeRegister(new SimpleDateFormat("HH:mm dd/MM/yyyy").format(date));
+
                 assert fragment != null;
                 fragment.onRegisterSuccess(registerRoom);
                 break;

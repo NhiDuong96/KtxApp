@@ -47,6 +47,7 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("load data:", "data");
         prepareData();
     }
 
@@ -63,6 +64,7 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
         areasName.setOnItemSelectedListener(selectedListener);
         RecyclerView recyclerView = view.findViewById(R.id.floorList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        Log.e("aksd", this.getClass().getName());
         floorAdapter = getFloorAdapter(getContext(), floorList);
         floorAdapter.setOnRoomClickListener(KtxInfoFragment.this);
         recyclerView.setAdapter(floorAdapter);
@@ -77,7 +79,6 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             Object name = adapterView.getItemAtPosition(i);
-            Log.e("debug", name.toString());
             loadFloors(areasView.get(name));
             loadRooms();
         }
@@ -197,7 +198,6 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
 
                 RoomsResponse result = gson.fromJson(floorJson, RoomsResponse.class);
                 List<Room> roomList = new ArrayList<>(result.entries);
-                Log.e("debug", "call");
                 for(Room room: roomList){
                     room.setFloor(floor);
                 }

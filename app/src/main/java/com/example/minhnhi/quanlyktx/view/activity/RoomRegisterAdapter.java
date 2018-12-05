@@ -15,4 +15,9 @@ public class RoomRegisterAdapter extends RoomAdapter {
     public int getCurrentStudent(Room room) {
         return room.getStudentRegister();
     }
+
+    @Override
+    public String getUsedNumber(Room room){
+        return String.valueOf(room.getStudentRegister()) + "/" + String.valueOf(room.getStudentMax());
+    }
 }

@@ -28,11 +28,11 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
-public class RoomBillPager extends Fragment implements RoomPager {
+public class RoomBillPager extends RoomPager {
 
-    private Room room;
-    private Bill bill;
+    private static Bill bill;
     private View view;
 
     @Override
@@ -40,7 +40,9 @@ public class RoomBillPager extends Fragment implements RoomPager {
         super.onCreate(savedInstanceState);
         int thisMonth = Calendar.getInstance().get(Calendar.MONTH);
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        loadData(room, thisMonth, thisYear);
+        if(bill == null && room != null){
+            loadData(room, thisMonth + 1, thisYear);
+        }
     }
 
     @Nullable
@@ -80,22 +82,13 @@ public class RoomBillPager extends Fragment implements RoomPager {
             int month = (int) spinMonth.getSelectedItem();
             int year = (int) spinYear.getSelectedItem();
             loadData(room,month,year);
-            try {
-                viewData();
-            } catch (Exception e) {
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        try {
             viewData();
-        } catch (Exception e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        });
+        viewData();
         return view;
     }
 
-    private void viewData() throws Exception{
-        if(bill == null) return;
+    private void viewData(){
         TextView tv;
         tv = view.findViewById(R.id.oldNumElectric);
         tv.setText(String.valueOf(bill.getOld_number_elec()));
@@ -128,10 +121,10 @@ public class RoomBillPager extends Fragment implements RoomPager {
         CheckBox cb;
         cb = view.findViewById(R.id.payCb);
         if(bill.getStatus() == Bill.BillStatus.PAID){
-            cb.setEnabled(false);
+            cb.setEnabled(true);
             cb.setText("Đã nộp");
         }else{
-            cb.setEnabled(true);
+            cb.setEnabled(false);
             cb.setText("Chưa nộp");
         }
     }
@@ -153,21 +146,28 @@ public class RoomBillPager extends Fragment implements RoomPager {
                             String.valueOf(thisYear);
                     json = JsonAPI.get(uri);
                     Log.e("data", json);
-                    Gson gson = new Gson();
-                    BillsResponse result = gson.fromJson(json, BillsResponse.class);
-                    RoomBillPager.this.bill = result.entry;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    onBillNotExist();
                 }
                 return json;
             }
         };
         task.execute();
+
+        try {
+            String resultStr = task.get();
+            if(!resultStr.isEmpty()){
+                Gson gson = new Gson();
+                BillsResponse result = gson.fromJson(task.get(), BillsResponse.class);
+                bill = result.entry;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            onBillNotExist();
+        }
     }
 
-    @Override
-    public void setRoom(Room room) {
-        this.room = room;
+    private void onBillNotExist(){
+        bill = new Bill();
     }
-
 }

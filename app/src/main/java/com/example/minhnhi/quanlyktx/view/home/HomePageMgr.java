@@ -50,7 +50,7 @@ public class HomePageMgr {
                 @Override
                 protected String doInBackground(Void... voids) {
                     String json = "";
-                    String host = context.getResources().getString(R.string.host);
+                    String host = context.getResources().getString(R.string.host1);
                     String uri = context.getResources().getString(page.getAPI());
                     try {
                          json = JsonAPI.get(host+uri);

@@ -41,7 +41,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
     public void onBindViewHolder(@NonNull RoomHolder holder, int position) {
         Room room = rooms.get(position);
         holder.roomNumber.setText(room.getName());
-        holder.usedNumber.setText(room.getUsedNumber());
+        holder.usedNumber.setText(getUsedNumber(room));
         int functionIcon = RoomFunctionIconFactory.getIcon(room.getFunctionId());
         if(functionIcon == -1) {
             for (int i = 0; i < getCurrentStudent(room); i++) {
@@ -63,6 +63,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         return room.getStudentPresent();
     }
 
+    public String getUsedNumber(Room room){
+        return String.valueOf(room.getStudentPresent()) + "/" + String.valueOf(room.getStudentMax());
+    }
+
     @Override
     public int getItemCount() {
         return rooms.size();
@@ -75,10 +79,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
     private void onItemHolderClick(RoomHolder itemHolder) {
         if (mOnItemClickListener != null) {
             Room room = rooms.get(itemHolder.getAdapterPosition());
-            Log.e("debug" , "click");
             mOnItemClickListener.onRoomClick(room);
             if(room.getFunctionId() == -1) {
-                Log.e("debug" , "click");
                 mOnItemClickListener.onRoomClick(room);
             }
         }

@@ -3,19 +3,24 @@
 
     <string name="name">MSSV</string>
     <string name="password">Mật khẩu</string>
+    <string name="password_register">Nhập mật khẩu</string>
+    <string name="password_register_confirm">Nhập lại mật khẩu</string>
     <string name="btn_sign_in">Đăng nhập</string>
     <string name="login_title">Đăng nhập</string>
+    <string name="register_title">Đăng ký</string>
     <string name="remember_me">Remember Me</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="no_account">Don\'t have a account? MORE HERE</string>
+    <string name="forgot_password">Forgot Password? </string>
+    <string name="no_account">Don\'t have a account? REGISTER HERE </string>
     <string name="contact_info"><b>LIÊN HỆ</b>\nBan Quản lý KTX - Đại học Bách khoa.\nĐịa chỉ: 60
     Ngô Sĩ Liên, phường Hòa Khánh Bắc, quẩn Liên Chiểu, TP Đà Nẵng.\nTel: 0511.3736.936\nEmail: ktxbk.dn@gmail.com</string>
 
     <!-- uri host-->
-    <string name="host">http://demo2159415.mockable.io/</string>
+    <string name="host1">http://demo2159415.mockable.io/</string>
+    <string name="host">http://7aa12280.ngrok.io/</string>
 
     <!-- uri api-->
-    <string name="login_uri">api/user</string>
+    <string name="login_uri">api/user/student/login</string>
+    <string name="sign_in_uri">api/user/register/</string>
     <string name="user_notification_uri">api/notification/user/</string>
     <string name="user_info_uri">api/user/get_user_detail/</string>
     <string name="read_notification_uri">api/notification/user/read/</string>
