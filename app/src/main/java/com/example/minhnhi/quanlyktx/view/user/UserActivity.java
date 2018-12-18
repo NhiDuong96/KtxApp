@@ -6,15 +6,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.minhnhi.quanlyktx.R;
+import com.example.minhnhi.quanlyktx.beans.Notification;
 import com.example.minhnhi.quanlyktx.beans.UserAccount;
 import com.example.minhnhi.quanlyktx.utils.AccountManager;
 import com.example.minhnhi.quanlyktx.view.home.HomeActivity;
 import com.example.minhnhi.quanlyktx.view.login.LoginActivity;
+
+import java.util.List;
 
 public class UserActivity extends AppCompatActivity{
     private UserAccount account;
@@ -27,6 +32,9 @@ public class UserActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         account = (UserAccount) intent.getSerializableExtra("account");
+        if(account == null){
+            Log.e("debug", "account is null");
+        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -64,8 +72,13 @@ public class UserActivity extends AppCompatActivity{
                 fragment = userInfoFragment;
                 break;
             case R.id.notification:
+                List<Notification> notifications = userInfoFragment.getUserNotifications();
+                if(notifications == null || notifications.size() == 0){
+                    Toast.makeText(this,"Hiện tại bạn không có thông báo nào!", Toast.LENGTH_LONG).show();
+                    return true;
+                }
                 UserNotificationFragment userNotificationFragment = new UserNotificationFragment();
-                userNotificationFragment.setNotifications(userInfoFragment.getUserNotifications());
+                userNotificationFragment.setNotifications(notifications);
                 fragment = userNotificationFragment;
                 break;
             case R.id.logout:

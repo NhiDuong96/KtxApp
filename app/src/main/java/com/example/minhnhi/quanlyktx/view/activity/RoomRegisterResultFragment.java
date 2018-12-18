@@ -18,20 +18,20 @@ import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.RegisterRoom;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.beans.UserAccount;
-import com.example.minhnhi.quanlyktx.cmd.AccountRequest;
+import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
 import com.example.minhnhi.quanlyktx.utils.JsonAPI;
 import com.example.minhnhi.quanlyktx.view.home.HomeActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
 public class RoomRegisterResultFragment extends Fragment {
     private RegisterRoom registerRoom;
     private UserAccount account;
     private View view;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -52,8 +52,8 @@ public class RoomRegisterResultFragment extends Fragment {
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
-                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-                    int code = JsonAPI.post(gson.toJson(registerRoom), uri);
+                    Gson gson = new Gson();
+                    int code = JsonAPI.put(gson.toJson(registerRoom), uri);
                     Log.e("debug", String.valueOf(code));
                 } catch (IOException e) {
                     e.printStackTrace();

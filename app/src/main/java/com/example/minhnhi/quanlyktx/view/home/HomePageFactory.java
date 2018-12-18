@@ -4,7 +4,7 @@ import com.example.minhnhi.quanlyktx.view.home.page.NotificationPage;
 import com.example.minhnhi.quanlyktx.view.home.page.RecruitmentPage;
 
 class HomePageFactory {
-    public static final int MAX_PAGE = 4;
+    public static final int MAX_PAGE = 2;
 
     public static final int NOTIFICATION = 0;
     public static final int RECRUITMENT = 1;

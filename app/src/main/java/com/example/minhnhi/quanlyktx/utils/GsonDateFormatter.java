@@ -16,7 +16,15 @@ public class GsonDateFormatter {
                 .registerTypeAdapter(Date.class, deser).create();
     }
 
+    public static Gson getGson2(){
+        return new GsonBuilder()
+                .registerTypeAdapter(Date.class, ser)
+                .registerTypeAdapter(Date.class, deser2).create();
+    }
+
     private static JsonSerializer<Date> ser = (src, typeOfSrc, context) -> src == null ? null : new JsonPrimitive(src.getTime());
 
     private static JsonDeserializer<Date> deser = (json, typeOfT, context) -> json == null ? null : new Date(json.getAsLong());
+
+    private static JsonDeserializer<Date> deser2 = (json, typeOfT, context) -> json == null ? null : new Date(json.getAsLong()*1000);
 }

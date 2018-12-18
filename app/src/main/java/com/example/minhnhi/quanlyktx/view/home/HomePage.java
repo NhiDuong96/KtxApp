@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class HomePage {
-    private List<Notification> data;
+    private List<Notification> data = new ArrayList<>();
     void initData(String json){
         data = parseJson(json);
     }

@@ -1,6 +1,5 @@
 package com.example.minhnhi.quanlyktx.beans;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class RegisterRoom {
@@ -31,8 +30,7 @@ public class RegisterRoom {
     @SerializedName("time_register")
     private String timeRegister;
 
-    @Expose
-    private Room room;
+    private transient Room room;
 
     public RegisterRoom(){}
 

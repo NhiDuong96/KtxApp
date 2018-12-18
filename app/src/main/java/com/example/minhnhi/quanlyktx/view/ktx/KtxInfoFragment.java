@@ -1,9 +1,7 @@
 package com.example.minhnhi.quanlyktx.view.ktx;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,23 +15,23 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Area;
 import com.example.minhnhi.quanlyktx.beans.Floor;
 import com.example.minhnhi.quanlyktx.beans.Room;
-import com.example.minhnhi.quanlyktx.cmd.AreasResponse;
-import com.example.minhnhi.quanlyktx.cmd.FloorsResponse;
-import com.example.minhnhi.quanlyktx.cmd.RoomsResponse;
-import com.example.minhnhi.quanlyktx.utils.JsonAPI;
+import com.example.minhnhi.quanlyktx.cmd.ApiMethod;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponse;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponseClass;
+import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
+import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 import com.example.minhnhi.quanlyktx.utils.OnSlideAnimationStartListener;
-import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClickListener {
     private FloorAdapter floorAdapter;
@@ -44,17 +42,28 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
     private OnSlideAnimationStartListener<Room> startAnimation;
 
     private HashMap<String, Area> areasView = new HashMap<>();
+
+    private boolean isLoaded = false;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("load data:", "data");
         prepareData();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.building_info_fragment, container, false);
+        View view = null;
+        if(isLoaded) {
+            view = inflater.inflate(R.layout.building_info_fragment, container, false);
+        }
+        else{
+            view = inflater.inflate(R.layout.building_loading_field_layout, container, false);
+            view.findViewById(R.id.back).setOnClickListener(v -> {
+               getActivity().finish();
+            });
+            return view;
+        }
 
         Spinner areasName = view.findViewById(R.id.areasName);
         ArrayAdapter<Object> arrayAdapter = new ArrayAdapter<>(getContext(),
@@ -64,7 +73,7 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
         areasName.setOnItemSelectedListener(selectedListener);
         RecyclerView recyclerView = view.findViewById(R.id.floorList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        Log.e("aksd", this.getClass().getName());
+
         floorAdapter = getFloorAdapter(getContext(), floorList);
         floorAdapter.setOnRoomClickListener(KtxInfoFragment.this);
         recyclerView.setAdapter(floorAdapter);
@@ -80,7 +89,10 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             Object name = adapterView.getItemAtPosition(i);
             loadFloors(areasView.get(name));
-            loadRooms();
+            for(Floor floor: floorList){
+                loadRooms(floor);
+            }
+            floorAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -94,7 +106,13 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
     }
 
     public void prepareData(){
-        loadAreas();
+        if(loadAreas()){
+            isLoaded = true;
+        }
+        else{
+            isLoaded = false;
+            Toast.makeText(this.getContext(), "Load thông tin Ktx thất bại", Toast.LENGTH_LONG).show();
+        }
     }
 
     private HashMap<String, Area> getListAreasName(){
@@ -104,112 +122,53 @@ public class KtxInfoFragment extends Fragment implements RoomAdapter.OnRoomClick
         return areasView;
     }
 
-    private void loadAreas(){
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                String json = "";
-                try {
-                    Resources res = getResources();
-                    String uri = res.getString(R.string.host) + res.getString(R.string.get_areas_uri);
-                    json = JsonAPI.get(uri);
-                    Log.e("data", json);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return json;
-            }
-        };
-        task.execute();
-        Gson gson = new Gson();
-        try {
-            AreasResponse result = gson.fromJson(task.get(), AreasResponse.class);
-            areaList.addAll(result.entries);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+    private boolean loadAreas(){
+        Resources res = getResources();
+        String uri = res.getString(R.string.host) + res.getString(R.string.get_areas_uri);
+
+        BaseMsg<List<Area>> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.AreaResponse.class);
+        msg.resolveDataOnMainThread();
+
+        if(msg.getCode() == ErrorCode.SUCCESS){
+            areaList.addAll(msg.getData());
+            return true;
         }
+        return false;
     }
 
     private void loadFloors(Area area){
         floorList.clear();
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                String json = "";
-                try {
-                    Resources res = getResources();
-                    String uri = res.getString(R.string.host) +
-                            res.getString(R.string.get_floors_uri) + String.valueOf(area.getId());
-                    json = JsonAPI.get(uri);
-                    Log.e("data", json);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return json;
-            }
-        };
-        task.execute();
-        Gson gson = new Gson();
-        try {
-            FloorsResponse result = gson.fromJson(task.get(), FloorsResponse.class);
-            floorList.addAll(result.entries);
+        Resources res = getResources();
+        String uri = res.getString(R.string.host) +
+                res.getString(R.string.get_floors_uri) + String.valueOf(area.getId());
+
+        BaseMsg<List<Floor>> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.FloorResponse.class);
+        msg.resolveDataOnMainThread();
+
+        if(msg.getCode() == ErrorCode.SUCCESS){
+            floorList.addAll(msg.getData());
             for(Floor floor: floorList){
                 floor.setArea(area);
             }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
         }
     }
 
-    private void loadRooms(){
-        final Gson gson = new Gson();
-        //load data here
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, String, String> task = new AsyncTask<Void, String, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                String json = "";
-                try {
-                    Resources res = getResources();
-                    for(Floor floor: floorList) {
-                        String uri = res.getString(R.string.host) +
-                                res.getString(R.string.get_rooms_uri) +
-                                String.valueOf(floor.getId());
-                        json = JsonAPI.get(uri);
-                        Log.e("data", json);
+    private void loadRooms(Floor floor){
+        Resources res = getResources();
+        String uri = res.getString(R.string.host) +
+                res.getString(R.string.get_rooms_uri) +
+                String.valueOf(floor.getId());
 
-                        publishProgress(json, String.valueOf(floorList.indexOf(floor)));
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        BaseMsg<List<Room>> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.RoomResponse.class);
+        msg.resolveDataOnMainThread();
 
-                return json;
+        if(msg.getCode() == ErrorCode.SUCCESS){
+            List<Room> roomList = msg.getData();
+            for(Room room: roomList){
+                room.setFloor(floor);
             }
-
-            @Override
-            protected void onProgressUpdate(String... values) {
-                super.onProgressUpdate(values);
-                String floorJson = values[0];
-                Floor floor = floorList.get(Integer.valueOf(values[1]));
-
-                RoomsResponse result = gson.fromJson(floorJson, RoomsResponse.class);
-                List<Room> roomList = new ArrayList<>(result.entries);
-                for(Room room: roomList){
-                    room.setFloor(floor);
-                }
-                floor.setRooms(roomList);
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                floorAdapter.notifyDataSetChanged();
-            }
-        };
-        task.execute();
+            floor.setRooms(roomList);
+        }
     }
 
     @Override

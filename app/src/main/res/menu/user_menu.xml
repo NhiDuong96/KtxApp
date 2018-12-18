@@ -6,10 +6,6 @@
         android:title="Thông báo"/>
     <item android:id="@+id/feedback"
         android:title="Góp ý"/>
-    <item android:id="@+id/absent"
-        android:title="Báo vắng"/>
-    <item android:id="@+id/connection"
-        android:title="Connection"/>
     <item android:id="@+id/logout"
         android:title="Đăng xuất"/>
 </menu>

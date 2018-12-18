@@ -17,6 +17,25 @@ public class JsonAPI {
 
     private JsonAPI(){}
 
+    public static int put(String json, String path) throws IOException{
+        Log.e(TAG, "send Json API: " + json);
+        Log.e(TAG, "send path API: " + path);
+        URL url = new URL(path);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("PUT");
+        conn.setRequestProperty("Content-Type", "application/json");
+
+        OutputStream os = conn.getOutputStream();
+        os.write(json.getBytes());
+        os.flush();
+        os.close();
+
+        int code = conn.getResponseCode();
+        conn.disconnect();
+        return code;
+    }
+
     public static int post(String json, String path) throws IOException{
         Log.e(TAG, "send Json API: " + json);
         Log.e(TAG, "send path API: " + path);

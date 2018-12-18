@@ -1,13 +1,9 @@
 package com.example.minhnhi.quanlyktx.view.ktx.pager;
 
-import android.annotation.SuppressLint;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +12,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Bill;
 import com.example.minhnhi.quanlyktx.beans.Room;
-import com.example.minhnhi.quanlyktx.cmd.BillsResponse;
-import com.example.minhnhi.quanlyktx.utils.JsonAPI;
-import com.google.gson.Gson;
+import com.example.minhnhi.quanlyktx.cmd.ApiMethod;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponse;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponseClass;
+import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
+import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.concurrent.ExecutionException;
 
 public class RoomBillPager extends RoomPager {
 
@@ -129,45 +124,21 @@ public class RoomBillPager extends RoomPager {
         }
     }
 
-    private void loadData(Room room, int thisMonth, int thisYear)
-    {
-        //load data
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, String, String> task = new AsyncTask<Void, String, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                String json = "";
-                try {
-                    Resources res = getResources();
-                    String uri = res.getString(R.string.host) +
-                            res.getString(R.string.get_bill_in_room_uri) +
-                            String.valueOf(room.getId()) + "/" +
-                            String.valueOf(thisMonth) + "/" +
-                            String.valueOf(thisYear);
-                    json = JsonAPI.get(uri);
-                    Log.e("data", json);
-                } catch (IOException e) {
-                    onBillNotExist();
-                }
-                return json;
-            }
-        };
-        task.execute();
+    private void loadData(Room room, int thisMonth, int thisYear) {
+        Resources res = getResources();
+        String uri = res.getString(R.string.host) +
+                res.getString(R.string.get_bill_in_room_uri) +
+                String.valueOf(room.getId()) + "/" +
+                String.valueOf(thisMonth) + "/" +
+                String.valueOf(thisYear);
 
-        try {
-            String resultStr = task.get();
-            if(!resultStr.isEmpty()){
-                Gson gson = new Gson();
-                BillsResponse result = gson.fromJson(task.get(), BillsResponse.class);
-                bill = result.entry;
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            onBillNotExist();
+        BaseMsg<Bill> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.BillResponse.class);
+        msg.resolveDataOnMainThread();
+
+        if (msg.getCode() == ErrorCode.SUCCESS) {
+            bill = msg.getData();
+        } else {
+            bill = new Bill();
         }
-    }
-
-    private void onBillNotExist(){
-        bill = new Bill();
     }
 }

@@ -75,19 +75,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
 
                 AccountManager accountManager = AccountManager.getAccountManager();
-                accountManager.setListener(account -> {
-                    Intent intent = new Intent();
-                    intent.putExtra(UserAccount.TAG, account);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                accountManager.setListener(new AccountManager.OnLoginSuccessListener() {
+                    @Override
+                    public void onLoggedSuccess(UserAccount account) {
+                        Intent intent = new Intent();
+                        intent.putExtra(UserAccount.TAG, account);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onLoggedFailed(String msg) {
+                        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
                 });
                 Resources res = getResources();
                 String uri = res.getString(R.string.host) + res.getString(R.string.login_uri);
 
-                boolean success = accountManager.logIn(this, nameStr, passStr, uri, remember.isChecked());
-                if(!success){
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
-                }
+                accountManager.logIn(this, nameStr, passStr, uri, remember.isChecked());
              break;
         }
     }

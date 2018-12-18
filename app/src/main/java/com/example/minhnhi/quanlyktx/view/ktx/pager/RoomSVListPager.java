@@ -1,14 +1,10 @@
 package com.example.minhnhi.quanlyktx.view.ktx.pager;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +15,14 @@ import android.widget.TextView;
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.beans.UserProfile;
-import com.example.minhnhi.quanlyktx.cmd.StudentResponse;
-import com.example.minhnhi.quanlyktx.utils.JsonAPI;
-import com.google.gson.Gson;
+import com.example.minhnhi.quanlyktx.cmd.ApiMethod;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponse;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponseClass;
+import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
+import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class RoomSVListPager extends RoomPager {
     private List<StudentModel> studentModels;
@@ -50,35 +46,17 @@ public class RoomSVListPager extends RoomPager {
 
     public void loadData(Room room) {
         studentModels = new ArrayList<>();
-        //load data here
-        @SuppressLint("StaticFieldLeak")
-        AsyncTask<Void, String, String> task = new AsyncTask<Void, String, String>() {
-            @Override
-            protected String doInBackground(Void... voids) {
-                String json = "";
-                try {
-                    Resources res = getResources();
-                    String uri = res.getString(R.string.host) +
-                            res.getString(R.string.get_student_in_room_uri) +
-                            String.valueOf(room.getId());
-                    json = JsonAPI.get(uri);
-                    Log.e("data", json);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return json;
-            }
-        };
-        task.execute();
+        Resources res = getResources();
+        String uri = res.getString(R.string.host) +
+                res.getString(R.string.get_student_in_room_uri) +
+                String.valueOf(room.getId());
+        BaseMsg<List<UserProfile>> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.StudentResponse.class);
+        msg.resolveDataOnMainThread();
 
-        Gson gson = new Gson();
-        try {
-            StudentResponse result = gson.fromJson(task.get(), StudentResponse.class);
-            for(UserProfile profile: result.entries){
+        if(msg.getCode() == ErrorCode.SUCCESS){
+            for(UserProfile profile: msg.getData()){
                 studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
             }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
         }
     }
 

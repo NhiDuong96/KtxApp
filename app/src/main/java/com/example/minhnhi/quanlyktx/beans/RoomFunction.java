@@ -1,36 +1,24 @@
 package com.example.minhnhi.quanlyktx.beans;
 
-import com.google.gson.annotations.SerializedName;
+public enum RoomFunction {
+    STUDY_FUNCTION(2),
 
-public class RoomFunction {
-    @SerializedName("id")
-    private int id;
-    @SerializedName("name")
-    private String name;
-    @SerializedName("status")
-    private int status;
+    LIVE_FUNCTION(1),
 
-    public int getId() {
-        return id;
+    NON_USED(3);
+
+    public int code;
+
+    RoomFunction(int code){
+        this.code = code;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
+    public static RoomFunction getFunctionById(int id){
+        for(RoomFunction function: RoomFunction.values()){
+            if(function.code == id){
+                return function;
+            }
+        }
+        return NON_USED;
     }
 }

@@ -1,5 +1,10 @@
 package com.example.minhnhi.quanlyktx.beans;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.example.minhnhi.quanlyktx.utils.AccountManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,7 +15,7 @@ public class UserAccount implements Serializable {
 
     private int id;
 
-    private String name;
+    private String userName;
 
     private UserProfile profile;
 
@@ -22,16 +27,27 @@ public class UserAccount implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String name) {
+        this.userName = name;
     }
 
     public UserProfile getProfile() {
         return profile;
+    }
+
+    public void updateProfile(UserProfile profile) {
+        if(this.profile!=null){
+            this.profile.setName(profile.getName());
+            this.profile.setPhone(profile.getPhone());
+            this.profile.setGender(profile.getGender());
+            this.profile.setAddress(profile.getAddress());
+            AccountManager.getAccountManager().saveAccountToInternalStorage(this);
+        }
+        else this.profile = profile;
     }
 
     public void setProfile(UserProfile profile) {
@@ -48,7 +64,7 @@ public class UserAccount implements Serializable {
         UserProfile profile = new UserProfile();
 
         account.setId(data.getInt("id"));
-        account.setName(data.getString("userName"));
+        account.setUserName(data.getString("userName"));
 
         profile.setName(details.getString("fullName"));
         profile.setMssv(studentCode.getString("value"));

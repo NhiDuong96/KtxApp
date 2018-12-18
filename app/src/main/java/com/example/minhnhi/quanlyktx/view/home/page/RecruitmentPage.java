@@ -2,10 +2,10 @@ package com.example.minhnhi.quanlyktx.view.home.page;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Notification;
-import com.example.minhnhi.quanlyktx.cmd.NotificationsResponse;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponse;
+import com.example.minhnhi.quanlyktx.cmd.ApiResponseClass;
 import com.example.minhnhi.quanlyktx.utils.GsonDateFormatter;
 import com.example.minhnhi.quanlyktx.view.home.HomePage;
-import com.example.minhnhi.quanlyktx.view.home.NotificationAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,13 +26,11 @@ public class RecruitmentPage extends HomePage {
     public List<Notification> parseJson(String json) {
         if(json == null || json.isEmpty()){
             List<Notification> notifications = new ArrayList<>();
-            notifications.add(new Notification(1,"Thông báo về việc đăng ký hè năm 2018", new Date(), "no content"));
-            notifications.add(new Notification(2,"Thông báo về việc trả phòng năm học 2017-2018", new Date(), "no content"));
-            notifications.add(new Notification(3,"Thông báo về việc đăng ký nội trú đợt 1", new Date(), "no content"));
+            notifications.add(new Notification(1,"Hiện tại không có thông tin tuyển dụng nào!", new Date(), "No recruitment information available!"));
             return notifications;
         }
         //parse json here
-        NotificationsResponse res = GsonDateFormatter.getGson().fromJson(json, NotificationsResponse.class);
-        return res.entries;
+        ApiResponse<List<Notification>> res = GsonDateFormatter.getGson().fromJson(json, ApiResponseClass.NotificationResponse.class);
+        return res.getData();
     }
 }

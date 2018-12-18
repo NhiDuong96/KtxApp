@@ -32,7 +32,9 @@
             android:configChanges="orientation|screenSize"
             tools:targetApi="jelly_bean">
         </activity>
-        <activity android:name=".view.activity.RoomRegisterActivity" />
+        <activity android:name=".view.activity.RoomRegisterActivity"
+            android:parentActivityName=".view.home.HomeActivity"/>
+        <activity android:name=".view.login.RegisterActivity" />
     </application>
 
 </manifest>

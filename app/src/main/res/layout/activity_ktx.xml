@@ -3,4 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container">
+    <LinearLayout
+        android:id="@+id/time_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/fab_margin_8">
+        <TextView
+            android:textColor="@android:color/holo_red_light"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hiện tại không phải trong thời gian đăng ký!"/>
+        <Button
+            android:id="@+id/back"
+            android:text="Back"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/blue_500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 </FrameLayout>

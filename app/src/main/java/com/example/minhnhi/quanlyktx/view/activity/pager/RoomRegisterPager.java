@@ -84,8 +84,9 @@ public class RoomRegisterPager extends RoomPager implements View.OnClickListener
 
                 RegisterRoom registerRoom = new RegisterRoom(room);
                 registerRoom.setNumRegister((Integer) spinner.getSelectedItem());
-                registerRoom.setYear(String.valueOf(date.getYear()));
-                registerRoom.setTimeRegister(new SimpleDateFormat("HH:mm dd/MM/yyyy").format(date));
+                registerRoom.setYear("2018");
+                registerRoom.setTimeRegister(String.valueOf(date.getTime()));
+                registerRoom.setTimeCensor(String.valueOf(date.getTime()));
 
                 assert fragment != null;
                 fragment.onRegisterSuccess(registerRoom);

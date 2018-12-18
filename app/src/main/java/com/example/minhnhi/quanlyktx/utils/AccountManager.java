@@ -1,18 +1,16 @@
 package com.example.minhnhi.quanlyktx.utils;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.UserAccount;
-import com.example.minhnhi.quanlyktx.cmd.AccountRequest;
+import com.example.minhnhi.quanlyktx.beans.AccountRegister;
+import com.example.minhnhi.quanlyktx.beans.AccountLogin;
+import com.example.minhnhi.quanlyktx.cmd.ApiLoadingObserverAdapter;
+import com.example.minhnhi.quanlyktx.cmd.ApiMethod;
+import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
+import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -24,14 +22,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.util.concurrent.ExecutionException;
 
 public class AccountManager implements Serializable{
     private static final String TAG = "AccountManager";
 
     public interface OnLoginSuccessListener{
-        void onLogged(UserAccount account);
+        void onLoggedSuccess(UserAccount account);
+        void onLoggedFailed(String msg);
     }
 
     private OnLoginSuccessListener listener;
@@ -59,69 +56,65 @@ public class AccountManager implements Serializable{
 
 
     @SuppressLint("StaticFieldLeak")
-    public boolean logIn(final Context context, String mssv, String password, String uri, boolean remember){
-        AccountRequest req = new AccountRequest(mssv, "", password);
-        AsyncTask<Void, Void, UserAccount> task = new AsyncTask<Void, Void, UserAccount>() {
+    public void logIn(final Context context, String mssv, String password, String uri, boolean remember){
+        this.context = context;
+        AccountLogin req = new AccountLogin(mssv, "", password);
+
+        BaseMsg<Void> msg = new BaseMsg<>(uri, ApiMethod.POST);
+        msg.setJsonPost(new Gson().toJson(req));
+        msg.exec(new ApiLoadingObserverAdapter(){
+            @Override
+            public void onLoadingSuccess(String json) {
+                isLogged = true;
+                try {
+                    account = UserAccount.parseJson(json);
+                    if(listener != null)
+                        listener.onLoggedSuccess(account);
+                    if(remember){
+                        saveAccountToInternalStorage(account);
+                    }
+                } catch (JSONException e) {
+                    isLogged = false;
+                    if(listener != null)
+                        listener.onLoggedFailed("Data error!");
+                }
+            }
 
             @Override
-            protected UserAccount doInBackground(Void... voids) {
-                UserAccount user = null;
-                try {
-                    String json = JsonAPI.postForResponse(new Gson().toJson(req), uri, HttpURLConnection.HTTP_OK);
-                    user = UserAccount.parseJson(json);
-                    isLogged = true;
-                } catch (IOException | JSONException e) {
-                    isLogged = false;
-                }
-                return user;
+            public void onLoadingFailed(ErrorCode code, String msg) {
+                isLogged = false;
+                if(listener != null)
+                    listener.onLoggedFailed(msg);
             }
-        };
-        task.execute();
-        try {
-            this.account = task.get();
-            if(isLogged && listener != null){
-                listener.onLogged(this.account);
-            }
-            if(remember){
-                saveAccountToInternalStorage(context, account);
-            }
-            return isLogged;
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            return false;
-        }
+        });
     }
 
     @SuppressLint("StaticFieldLeak")
-    public boolean signIn(final Context context, String mssv, String password, String uri){
-        AccountRequest req = new AccountRequest(mssv, "", password);
-        AsyncTask<Void, Void, UserAccount> task = new AsyncTask<Void, Void, UserAccount>() {
+    public void signIn(AccountRegister req, String uri){
+        BaseMsg<Void> msg = new BaseMsg<>(uri, ApiMethod.POST);
+        msg.setJsonPost(new Gson().toJson(req));
+        msg.exec(new ApiLoadingObserverAdapter(){
+            @Override
+            public void onLoadingSuccess(String json) {
+                isLogged = true;
+                try {
+                    account = UserAccount.parseJson(json);
+                    if(listener != null)
+                        listener.onLoggedSuccess(account);
+                } catch (JSONException e) {
+                    isLogged = false;
+                    if(listener != null)
+                        listener.onLoggedFailed("Data error!");
+                }
+            }
 
             @Override
-            protected UserAccount doInBackground(Void... voids) {
-                UserAccount user = null;
-                try {
-                    String json = JsonAPI.postForResponse(new Gson().toJson(req), uri, HttpURLConnection.HTTP_OK);
-                    user = new Gson().fromJson(json, UserAccount.class);
-                    isLogged = true;
-                } catch (IOException e) {
-                    isLogged = false;
-                }
-                return user;
+            public void onLoadingFailed(ErrorCode code, String msg) {
+                isLogged = false;
+                if(listener != null)
+                    listener.onLoggedFailed(msg);
             }
-        };
-        task.execute();
-        try {
-            this.account = task.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            this.isLogged = false;
-        }
-        if(isLogged && listener != null){
-            listener.onLogged(this.account);
-            saveAccountToInternalStorage(context, account);
-        }
-        return isLogged;
+        });
     }
 
     public void logOut(Context context){
@@ -141,13 +134,15 @@ public class AccountManager implements Serializable{
     }
 
     public UserAccount getLoggedAccount(Context context){
+        this.context = context;
         if(account == null){
             account = readAccountFromInternalStorage(context);
         }
         return account;
     }
 
-    private void saveAccountToInternalStorage(Context context, UserAccount account){
+    public void saveAccountToInternalStorage(UserAccount account){
+        this.account = account;
         try {
             FileOutputStream fos = context.openFileOutput("account.dat", Context.MODE_PRIVATE);
             ObjectOutputStream o = new ObjectOutputStream(fos);

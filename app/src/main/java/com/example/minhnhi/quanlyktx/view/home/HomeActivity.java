@@ -74,6 +74,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.activity:
+                directToActivityPage(getUserAccount());
                 if(isLogged()){
                     directToActivityPage(getUserAccount());
                 }else{
@@ -82,6 +83,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+
         return true;
     }
 
@@ -91,7 +93,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             UserAccount userAccount = (UserAccount) data.getSerializableExtra(UserAccount.TAG);
-            Log.e(UserAccount.TAG, userAccount.getName());
+            Log.e(UserAccount.TAG, userAccount.getUserName());
             if(requestCode == 8001){
                 directToUserPage(userAccount);
             }else if(requestCode == 8002){
@@ -101,21 +103,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void directToKtxPage(){
-        Toast.makeText(this, "Ktx Page", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Ktx Page", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, KtxActivity.class);
 
         startActivity(intent);
     }
 
     public void directToUserPage(UserAccount account){
-        Toast.makeText(this, "Student Page", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Student Page", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra("account", account);
         startActivity(intent);
     }
 
     public void directToActivityPage(UserAccount account){
-        Toast.makeText(this, "Activity Page", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Activity Page", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, RoomRegisterActivity.class);
         intent.putExtra("account", account);
         startActivity(intent);

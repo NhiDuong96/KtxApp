@@ -57,4 +57,12 @@ public class InputView extends LinearLayout {
     public void setText(String text){
         et.setText(text);
     }
+
+    public void setInputType(int type){
+        et.setInputType(type);
+    }
+
+    public String getText(){
+        return et.getText().toString();
+    }
 }

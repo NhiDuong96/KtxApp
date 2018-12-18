@@ -1,10 +1,9 @@
 package com.example.minhnhi.quanlyktx.beans;
 
-import com.example.minhnhi.quanlyktx.utils.TimeParser;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Date;
+
 
 public class UserProfile implements Serializable {
     @SerializedName("mssv")

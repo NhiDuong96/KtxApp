@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
+import com.example.minhnhi.quanlyktx.beans.RoomFunction;
 import com.example.minhnhi.quanlyktx.view.ktx.helper.RoomFunctionIconFactory;
 
 import java.util.ArrayList;
@@ -42,8 +43,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         Room room = rooms.get(position);
         holder.roomNumber.setText(room.getName());
         holder.usedNumber.setText(getUsedNumber(room));
-        int functionIcon = RoomFunctionIconFactory.getIcon(room.getFunctionId());
-        if(functionIcon == -1) {
+        RoomFunction function = RoomFunction.getFunctionById(room.getFunctionId());
+        int functionIcon = RoomFunctionIconFactory.getIcon(function);
+
+        if(function == RoomFunction.LIVE_FUNCTION) {
             for (int i = 0; i < getCurrentStudent(room); i++) {
                 holder.icons.get(i).setImageResource((room.getGender() == 1) ? R.mipmap.men_icon_48 : R.mipmap.woman_icon_48);
             }
@@ -79,8 +82,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
     private void onItemHolderClick(RoomHolder itemHolder) {
         if (mOnItemClickListener != null) {
             Room room = rooms.get(itemHolder.getAdapterPosition());
-            mOnItemClickListener.onRoomClick(room);
-            if(room.getFunctionId() == -1) {
+            RoomFunction function = RoomFunction.getFunctionById(room.getFunctionId());
+            if(function == RoomFunction.LIVE_FUNCTION) {
                 mOnItemClickListener.onRoomClick(room);
             }
         }

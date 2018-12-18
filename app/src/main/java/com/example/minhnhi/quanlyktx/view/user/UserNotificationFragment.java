@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Notification;
+import com.example.minhnhi.quanlyktx.cmd.ApiMethod;
+import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
+import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 import com.example.minhnhi.quanlyktx.utils.JsonAPI;
 
 import java.io.IOException;
@@ -90,24 +93,8 @@ public class UserNotificationFragment extends Fragment implements View.OnClickLi
 
     @SuppressLint("StaticFieldLeak")
     private boolean updateNotification(ExpandableNotificationItem nf, String uri){
-        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>(){
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                try {
-                    JsonAPI.get(uri + nf.getId());
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-        }.execute();
-
-        try {
-            return task.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            return false;
-        }
+        BaseMsg<Void> msg = new BaseMsg<>(uri + nf.getId(), ApiMethod.GET);
+        msg.exec(null);
+        return msg.getCode() == ErrorCode.SUCCESS;
     }
 }

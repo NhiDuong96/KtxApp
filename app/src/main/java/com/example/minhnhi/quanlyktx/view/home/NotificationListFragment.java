@@ -31,9 +31,9 @@ public class NotificationListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        homePageMgr = new HomePageMgr(getContext());
+        homePageMgr = HomePageMgr.getInstance();
         homePageMgr.setPageFactory(new HomePageFactory());
-        page = homePageMgr.getPage(HomePageFactory.NOTIFICATION);
+        page = homePageMgr.getPage(HomePageFactory.NOTIFICATION, this.getContext());
         adapter = page.getAdapter();
         adapter.setOnItemClickListener(listener);
         recyclerView.setAdapter(adapter);
@@ -42,12 +42,12 @@ public class NotificationListFragment extends Fragment {
     }
 
     public void onNextPage(){
-        page = homePageMgr.getPage(homePageMgr.getPageFactory().nextPage());
+        page = homePageMgr.getPage(homePageMgr.getPageFactory().nextPage(), this.getContext());
         showPage(page);
     }
 
     public void onPreviousPage(){
-        page = homePageMgr.getPage(homePageMgr.getPageFactory().previousPage());
+        page = homePageMgr.getPage(homePageMgr.getPageFactory().previousPage(), this.getContext());
         showPage(page);
     }
 
@@ -57,6 +57,7 @@ public class NotificationListFragment extends Fragment {
         adapter.setOnItemClickListener(listener);
         recyclerView.setAdapter(adapter);
     }
+
 
     private AdapterView.OnItemClickListener listener = (adapterView, view, i, l) -> {
         NotificationDetailsFragment detailsFragment = new NotificationDetailsFragment();
