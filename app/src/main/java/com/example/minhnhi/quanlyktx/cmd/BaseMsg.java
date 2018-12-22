@@ -105,7 +105,7 @@ public class BaseMsg<Result> {
                     if (errorCode == ErrorCode.SUCCESS) {
                         observer.onLoadingSuccess(s);
                     }
-                    else{
+                    else if(res != null){
                         observer.onLoadingFailed(errorCode, res.message);
                     }
                     observer.onLoadingFinish();
@@ -151,6 +151,7 @@ public class BaseMsg<Result> {
             }
             else errorCode = ErrorCode.SUCCESS;
         } catch (Exception e) {
+            e.printStackTrace();
             errorCode = ErrorCode.ERROR_TASK_GET;
         }
     }

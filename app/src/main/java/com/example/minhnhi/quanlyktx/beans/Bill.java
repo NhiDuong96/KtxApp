@@ -9,29 +9,34 @@ public class Bill {
     private int month;
     @SerializedName("year")
     private int year;
-    @SerializedName("level_water")
+
+    @SerializedName("levelWater")
     private int level_water;
-    @SerializedName("level_elec")
+    @SerializedName("levelElec")
     private int level_elec;
     @SerializedName("total")
     private float total;
-    @SerializedName("room_id")
+    @SerializedName("roomId")
     private int roomId;
-    @SerializedName("new_number_water")
+
+    @SerializedName("newNumberWater")
     private int new_number_water;
-    @SerializedName("new_number_elec")
+    @SerializedName("newNumberElec")
+
     private int new_number_elec;
-    @SerializedName("old_number_water")
+    @SerializedName("oldNumberWater")
     private int old_number_water;
-    @SerializedName("old_number_elec")
+    @SerializedName("oldNumberElec")
     private int old_number_elec;
-    @SerializedName("cost_water")
+
+    @SerializedName("costWater")
     private float cost_water;
-    @SerializedName("cost_elec")
+    @SerializedName("costElec")
     private float cost_elec;
-    @SerializedName("total_water")
+
+    @SerializedName("totalWater")
     private float total_water;
-    @SerializedName("total_elec")
+    @SerializedName("totalElec")
     private float total_elec;
     @SerializedName("status")
     private int status;

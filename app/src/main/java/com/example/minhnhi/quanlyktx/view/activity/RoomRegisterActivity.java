@@ -1,13 +1,12 @@
 package com.example.minhnhi.quanlyktx.view.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 
 import com.example.minhnhi.quanlyktx.R;
+import com.example.minhnhi.quanlyktx.beans.RegisterResult;
 import com.example.minhnhi.quanlyktx.beans.RegisterRoom;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.beans.TimeRegister;
@@ -22,12 +21,12 @@ import com.example.minhnhi.quanlyktx.view.activity.pager.RoomRegisterPagerFactor
 import com.example.minhnhi.quanlyktx.view.ktx.KtxActivity;
 import com.example.minhnhi.quanlyktx.view.ktx.RoomDetailsFragment;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 public class RoomRegisterActivity extends KtxActivity implements OnRegisterListener {
     private UserAccount account;
+    public static TimeRegister timeRegister;
 
     @Override
     protected void onCreate(){
@@ -54,11 +53,11 @@ public class RoomRegisterActivity extends KtxActivity implements OnRegisterListe
         }
 
         //load if user already register
-        RegisterRoom registerRoom = getCurrentRoomRegister();
-        if(registerRoom != null){
-            RoomRegisterResultFragment fragment = new RoomRegisterResultFragment();
+        RegisterResult registerResult = getCurrentRoomRegister();
+        if(registerResult != null){
+            RoomRegisterFragment fragment = new RoomRegisterFragment();
             fragment.setUserAccount(account);
-            fragment.setRegisterRoom(registerRoom);
+            fragment.setRegisterResult(registerResult);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, fragment)
                     .commit();
@@ -84,7 +83,7 @@ public class RoomRegisterActivity extends KtxActivity implements OnRegisterListe
 
     @Override
     public void onRegisterSuccess(RegisterRoom registerRoom) {
-        RoomRegisterResultFragment fragment = new RoomRegisterResultFragment();
+        RoomRegisterFragment fragment = new RoomRegisterFragment();
         fragment.setUserAccount(account);
         fragment.setRegisterRoom(registerRoom);
         getSupportFragmentManager()
@@ -98,13 +97,13 @@ public class RoomRegisterActivity extends KtxActivity implements OnRegisterListe
 
     }
 
-    public RegisterRoom getCurrentRoomRegister(){
+    public RegisterResult getCurrentRoomRegister(){
         String host = getResources().getString(R.string.host);
-        String uri = "";
-        BaseMsg<RegisterRoom> msg = new BaseMsg<>(host+uri, ApiMethod.GET, ApiResponseClass.RegisterRoomResponse.class);
+        String uri = getResources().getString(R.string.get_register_room_uri) + account.getId();
+        BaseMsg<List<RegisterResult>> msg = new BaseMsg<>(host+uri, ApiMethod.GET, ApiResponseClass.RegisterResultResponse.class);
         msg.resolveDataOnMainThread();
         if(msg.getCode() == ErrorCode.SUCCESS){
-            return msg.getData();
+            return msg.getData().get(0);
         }
         return null;
     }
@@ -120,6 +119,7 @@ public class RoomRegisterActivity extends KtxActivity implements OnRegisterListe
             for(TimeRegister timeRegister: msg.getData()){
                 if(now.compareTo(timeRegister.getDateBegin()) >= 0 &&
                         now.compareTo(timeRegister.getDateEnd()) <= 0){
+                    RoomRegisterActivity.timeRegister = timeRegister;
                     return true;
                 }
                 else{

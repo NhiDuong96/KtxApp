@@ -14,6 +14,8 @@ import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Area;
 import com.example.minhnhi.quanlyktx.beans.RegisterRoom;
 import com.example.minhnhi.quanlyktx.beans.Room;
+import com.example.minhnhi.quanlyktx.beans.TimeRegister;
+import com.example.minhnhi.quanlyktx.view.activity.RoomRegisterActivity;
 import com.example.minhnhi.quanlyktx.view.activity.RoomRegisterDetailsFragment;
 import com.example.minhnhi.quanlyktx.view.ktx.pager.RoomPager;
 
@@ -26,7 +28,6 @@ public class RoomRegisterPager extends RoomPager implements View.OnClickListener
 
     private String roomAds;
     private int numBed;
-//    private int numSV;
     private int numRegister;
     private String price;
     private int maxBed;
@@ -69,10 +70,9 @@ public class RoomRegisterPager extends RoomPager implements View.OnClickListener
         Area area = room.getFloor().getArea();
         roomAds = "Phòng " + room.getName() + " " + area.getName();
         numBed = room.getNumberBed();
-        //numSV = room.getStudentPresent();
         numRegister = room.getStudentRegister();
         maxBed = room.getStudentMax();
-        price = room.getRoomCost();
+        price = room.getRoomCost() + " VNĐ" + room.getCostName();
     }
 
     @Override
@@ -82,11 +82,15 @@ public class RoomRegisterPager extends RoomPager implements View.OnClickListener
                 RoomRegisterDetailsFragment fragment = (RoomRegisterDetailsFragment) getParentFragment();
                 Date date = new Date();
 
+                TimeRegister timeRegister = RoomRegisterActivity.timeRegister;
+                if(timeRegister == null) return;
+
                 RegisterRoom registerRoom = new RegisterRoom(room);
                 registerRoom.setNumRegister((Integer) spinner.getSelectedItem());
                 registerRoom.setYear("2018");
                 registerRoom.setTimeRegister(String.valueOf(date.getTime()));
                 registerRoom.setTimeCensor(String.valueOf(date.getTime()));
+                registerRoom.setSemesterId(timeRegister.getSemester().getId());
 
                 assert fragment != null;
                 fragment.onRegisterSuccess(registerRoom);

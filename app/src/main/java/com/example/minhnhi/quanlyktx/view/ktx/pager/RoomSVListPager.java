@@ -15,17 +15,21 @@ import android.widget.TextView;
 import com.example.minhnhi.quanlyktx.R;
 import com.example.minhnhi.quanlyktx.beans.Room;
 import com.example.minhnhi.quanlyktx.beans.UserProfile;
+import com.example.minhnhi.quanlyktx.cmd.ApiLoadingObserverAdapter;
 import com.example.minhnhi.quanlyktx.cmd.ApiMethod;
 import com.example.minhnhi.quanlyktx.cmd.ApiResponse;
 import com.example.minhnhi.quanlyktx.cmd.ApiResponseClass;
 import com.example.minhnhi.quanlyktx.cmd.BaseMsg;
 import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RoomSVListPager extends RoomPager {
     private List<StudentModel> studentModels;
+    private StudentAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class RoomSVListPager extends RoomPager {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.room_students_pager, container, false);
         ListView listView = view.findViewById(R.id.list_item);
-        StudentAdapter adapter = new StudentAdapter(getContext(), studentModels);
+        adapter = new StudentAdapter(getContext(), studentModels);
         listView.setAdapter(adapter);
         return view;
     }
@@ -50,14 +54,22 @@ public class RoomSVListPager extends RoomPager {
         String uri = res.getString(R.string.host) +
                 res.getString(R.string.get_student_in_room_uri) +
                 String.valueOf(room.getId());
-        BaseMsg<List<UserProfile>> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.StudentResponse.class);
-        msg.resolveDataOnMainThread();
 
-        if(msg.getCode() == ErrorCode.SUCCESS){
-            for(UserProfile profile: msg.getData()){
-                studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
+        BaseMsg<Void> msg = new BaseMsg<>(uri, ApiMethod.GET);
+        msg.exec(new ApiLoadingObserverAdapter(){
+            @Override
+            public void onLoadingSuccess(String json) {
+                try {
+                    List<UserProfile> profiles = UserProfile.parseListProfiles(json);
+                    for(UserProfile profile: profiles){
+                        studentModels.add(new StudentModel(profile.getName(), profile.getClassName(), StudentStatus.RENT));
+                    }
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        });
     }
 
     public enum StudentStatus{

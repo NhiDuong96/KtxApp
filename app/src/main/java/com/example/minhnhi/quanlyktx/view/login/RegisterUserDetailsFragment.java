@@ -90,7 +90,7 @@ public class RegisterUserDetailsFragment extends Fragment {
             req.setMssv(getMssv());
             req.setNameClass(className.getText());
             req.setPhone(phone.getText().toString());
-            req.setUserName("");
+            req.setUserName(getMssv());
             req.setPassword(getPassword());
             req.setGender(gender.getSelectedItemPosition());
 

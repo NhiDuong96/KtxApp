@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.example.minhnhi.quanlyktx.cmd.ErrorCode;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class RoomBillPager extends RoomPager {
 
@@ -132,12 +134,13 @@ public class RoomBillPager extends RoomPager {
                 String.valueOf(thisMonth) + "/" +
                 String.valueOf(thisYear);
 
-        BaseMsg<Bill> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.BillResponse.class);
+        BaseMsg<List<Bill>> msg = new BaseMsg<>(uri, ApiMethod.GET, ApiResponseClass.BillResponse.class);
         msg.resolveDataOnMainThread();
 
         if (msg.getCode() == ErrorCode.SUCCESS) {
-            bill = msg.getData();
+            bill = msg.getData().get(0);
         } else {
+            Log.e("debug", String.valueOf(msg.getCode()));
             bill = new Bill();
         }
     }

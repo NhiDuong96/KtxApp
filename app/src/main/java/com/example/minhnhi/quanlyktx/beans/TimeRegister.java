@@ -13,6 +13,8 @@ public class TimeRegister {
     private Date dateEnd;
     @SerializedName("status")
     private int status;
+    @SerializedName("semester")
+    private Semester semester;
 
     public int getId() {
         return id;
@@ -44,5 +46,13 @@ public class TimeRegister {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Semester getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Semester semester) {
+        this.semester = semester;
     }
 }

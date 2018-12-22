@@ -2,7 +2,13 @@ package com.example.minhnhi.quanlyktx.beans;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserProfile implements Serializable {
@@ -75,5 +81,25 @@ public class UserProfile implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public static List<UserProfile> parseListProfiles(String json) throws JSONException {
+        JSONObject res = new JSONObject(json);
+        JSONArray dataArray = res.getJSONArray("data");
+
+        List<UserProfile> list = new ArrayList<>();
+        for(int i = 0; i < dataArray.length(); i++){
+            JSONObject data = dataArray.getJSONObject(i);
+            JSONObject details = data.getJSONObject("userDetail");
+
+            UserProfile profile = new UserProfile();
+            profile.setName(details.getString("fullName"));
+            profile.setAddress(details.getString("address"));
+            profile.setPhone(details.getString("phone"));
+            profile.setGender(data.getInt("gender"));
+
+            list.add(profile);
+        }
+        return list;
     }
 }

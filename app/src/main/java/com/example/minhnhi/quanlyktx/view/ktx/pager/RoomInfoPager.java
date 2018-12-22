@@ -46,7 +46,7 @@ public class RoomInfoPager extends RoomPager {
         numBed = room.getNumberBed();
         numSV = room.getStudentPresent();
         numRegister = room.getStudentRegister();
-        price = room.getRoomCost() + " VNĐ";
+        price = room.getRoomCost() + " VNĐ " + room.getCostName();
     }
 
 }

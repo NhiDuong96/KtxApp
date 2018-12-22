@@ -38,7 +38,7 @@ public class Room {
     @SerializedName("costName")
     private String costName;
     @SerializedName("costValue")
-    private String costValue;
+    private float costValue;
     @SerializedName("costLevel")
     private String costLevel;
 
@@ -100,8 +100,8 @@ public class Room {
         this.floor = floor;
     }
 
-    public String getRoomCost(){
-        return getCostValue() + " " + getCostName();
+    public long getRoomCost(){
+        return (long)getCostValue()*1000;
     }
 
     public String getFloorName() {
@@ -136,11 +136,11 @@ public class Room {
         this.costName = costName;
     }
 
-    public String getCostValue() {
+    public float getCostValue() {
         return costValue;
     }
 
-    public void setCostValue(String costValue) {
+    public void setCostValue(float costValue) {
         this.costValue = costValue;
     }
 

@@ -6,16 +6,16 @@ public class RegisterRoom {
     @SerializedName("id")
     private int id;
 
-    @SerializedName("user_id")
+    @SerializedName("userId")
     private int userId;
 
     @SerializedName("number")
     private int numRegister;
 
-    @SerializedName("semester_id")
+    @SerializedName("semesterId")
     private int semesterId;
 
-    @SerializedName("room_id")
+    @SerializedName("roomId")
     private int roomId;
 
     @SerializedName("year")
@@ -24,10 +24,10 @@ public class RegisterRoom {
     @SerializedName("status")
     private int status;
 
-    @SerializedName("time_censor")
+    @SerializedName("timeCensor")
     private String timeCensor;
 
-    @SerializedName("time_register")
+    @SerializedName("timeRegister")
     private String timeRegister;
 
     private transient Room room;
